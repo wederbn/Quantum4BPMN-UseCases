@@ -12,7 +12,7 @@
                 <camunda:entry key="Content-Type">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
-            <camunda:inputParameter name="url">http://error-mitigation-service:5071/error-mitigation/rem/</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://error-mitigation-service:5071/rem/</camunda:inputParameter>
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="JavaScript">
 var qpu = execution.getVariable("qpu");
