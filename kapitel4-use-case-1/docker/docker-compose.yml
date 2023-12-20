@@ -27,7 +27,7 @@ services:
       - use-case-1
 
   winery:
-    build: initialized-winery
+    image: opentosca/winery:v3.0.8-M1
     logging:
       driver: none
     networks:
