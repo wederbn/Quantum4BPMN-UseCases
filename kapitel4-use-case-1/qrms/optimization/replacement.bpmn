@@ -5,7 +5,7 @@
       <bpmn:startEvent id="StartEvent_06jb5q3">
         <bpmn:outgoing>SequenceFlow_12iaeht</bpmn:outgoing>
       </bpmn:startEvent>
-      <bpmn:exclusiveGateway id="ExclusiveGateway_0muea1g" name="Is first Iteration?">
+      <bpmn:exclusiveGateway id="ExclusiveGateway_0muea1g" name="Erste Iteration?">
         <bpmn:incoming>Flow_0ebeg9s</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1ebfooz</bpmn:outgoing>
         <bpmn:outgoing>SequenceFlow_1lffclo</bpmn:outgoing>
@@ -16,10 +16,10 @@
         <bpmn:incoming>SequenceFlow_100xkhy</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0jv1zhg</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:sequenceFlow id="SequenceFlow_1ebfooz" name="No" sourceRef="ExclusiveGateway_0muea1g" targetRef="ExclusiveGateway_1ivwp1n">
+      <bpmn:sequenceFlow id="SequenceFlow_1ebfooz" name="Nein" sourceRef="ExclusiveGateway_0muea1g" targetRef="ExclusiveGateway_1ivwp1n">
         <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ execution.getVariable('iterations')!= null &amp;&amp; execution.getVariable('iterations') &gt;= 1}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
-      <bpmn:sequenceFlow id="SequenceFlow_1lffclo" name="Yes" sourceRef="ExclusiveGateway_0muea1g" targetRef="Task_1pg7e2b">
+      <bpmn:sequenceFlow id="SequenceFlow_1lffclo" name="Ja" sourceRef="ExclusiveGateway_0muea1g" targetRef="Task_1pg7e2b">
         <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ execution.getVariable('iterations')== null || execution.getVariable('iterations') &lt; 1}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="SequenceFlow_100xkhy" sourceRef="Task_1pg7e2b" targetRef="ExclusiveGateway_1ivwp1n" />
@@ -28,7 +28,7 @@
         <bpmn:incoming>SequenceFlow_1hst7js</bpmn:incoming>
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="SequenceFlow_1hst7js" sourceRef="Task_0twvhh9" targetRef="EndEvent_191hgmf" />
-      <bpmn:serviceTask id="Task_1pg7e2b" name="Initialize Optimizer" camunda:asyncAfter="true" camunda:exclusive="false">
+      <bpmn:serviceTask id="Task_1pg7e2b" name="Initialisiere Optimizer" camunda:asyncAfter="true" camunda:exclusive="false">
         <bpmn:extensionElements>
           <camunda:connector>
             <camunda:inputOutput>
@@ -79,7 +79,7 @@
         <bpmn:incoming>SequenceFlow_1lffclo</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_100xkhy</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:serviceTask id="Task_0twvhh9" name="Optimizer Parameters" camunda:asyncAfter="true" camunda:exclusive="false" camunda:type="external" camunda:topic="123456">
+      <bpmn:serviceTask id="Task_0twvhh9" name="Optimiere Parameter" camunda:asyncAfter="true" camunda:exclusive="false" camunda:type="external" camunda:topic="123456">
         <bpmn:extensionElements>
           <camunda:inputOutput>
             <camunda:outputParameter name="iterations">
@@ -93,7 +93,7 @@
         <bpmn:incoming>SequenceFlow_0jv1zhg</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1hst7js</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:serviceTask id="ServiceTask_1d6l6i9" name="Evaluate Results" camunda:asyncAfter="true" camunda:exclusive="false">
+      <bpmn:serviceTask id="ServiceTask_1d6l6i9" name="Evaluiere Ergebnis" camunda:asyncAfter="true" camunda:exclusive="false">
         <bpmn:extensionElements>
           <camunda:connector>
             <camunda:inputOutput>
@@ -104,7 +104,7 @@
                   <camunda:entry key="Content-Type">application/json</camunda:entry>
                 </camunda:map>
               </camunda:inputParameter>
-              <camunda:inputParameter name="url">/objective/max-cut</camunda:inputParameter>
+              <camunda:inputParameter name="url">http://objective-evaluation-service:5072/objective/max-cut</camunda:inputParameter>
               <camunda:inputParameter name="payload">
                 <camunda:script scriptFormat="groovy">  import groovy.json.JsonBuilder
   def adjMatrix = execution.getVariable("adjMatrix");
@@ -180,7 +180,7 @@ typedFileValue</camunda:script>
       <bpmndi:BPMNShape id="ExclusiveGateway_0muea1g_di" bpmnElement="ExclusiveGateway_0muea1g" isMarkerVisible="true">
         <dc:Bounds x="265" y="235" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="251" y="292" width="79" height="14" />
+          <dc:Bounds x="253" y="292" width="75" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_1ivwp1n_di" bpmnElement="ExclusiveGateway_1ivwp1n" isMarkerVisible="true">
@@ -191,12 +191,15 @@ typedFileValue</camunda:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_042ewp7_di" bpmnElement="Task_1pg7e2b">
         <dc:Bounds x="340" y="100" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1qllkta_di" bpmnElement="Task_0twvhh9">
         <dc:Bounds x="590" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_1d6l6i7_di" bpmnElement="ServiceTask_1d6l6i9">
         <dc:Bounds x="90" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_12iaeht_di" bpmnElement="SequenceFlow_12iaeht">
         <di:waypoint x="28" y="260" />
@@ -206,7 +209,7 @@ typedFileValue</camunda:script>
         <di:waypoint x="315" y="260" />
         <di:waypoint x="485" y="260" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="342" y="242" width="15" height="14" />
+          <dc:Bounds x="338" y="242" width="23" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1lffclo_di" bpmnElement="SequenceFlow_1lffclo">
@@ -214,7 +217,7 @@ typedFileValue</camunda:script>
         <di:waypoint x="290" y="140" />
         <di:waypoint x="340" y="140" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="296" y="203" width="18" height="14" />
+          <dc:Bounds x="299" y="203" width="12" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_100xkhy_di" bpmnElement="SequenceFlow_100xkhy">
