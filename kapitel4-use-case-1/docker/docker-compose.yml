@@ -30,6 +30,104 @@ services:
     image: opentosca/winery:v3.0.8-M1
     logging:
       driver: none
+    ports:
+      - 8093:8080
+    networks:
+      - use-case-1
+
+  minio1:
+    image: quay.io/minio/minio:RELEASE.2022-01-27T03-53-02Z
+    command: server --console-address ":9001"  http://minio{1...2}/data{1...2} 
+    expose:
+    - "9000"
+    - "9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - use-case-1
+    hostname: minio1
+    volumes:
+      - data1-1:/data1
+      - data1-2:/data2
+
+  minio2:
+    image: quay.io/minio/minio:RELEASE.2022-01-27T03-53-02Z
+    command: server --console-address ":9001"  http://minio{1...2}/data{1...2} 
+    expose:
+      - "9000"
+      - "9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - use-case-1
+    hostname: minio2
+    volumes:
+      - data2-1:/data1
+      - data2-2:/data2
+
+  nginx:
+    image: nginx:1.19.2-alpine
+    hostname: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    depends_on:
+      - minio1
+      - minio2
+    networks:
+      - use-case-1
+  
+  error-mitigation-service:
+    image: planqk/error-mitigation-service:v0.3.0
+    command: app.py
+    ports:
+      - "5071:5071"
+    environment:
+      - MINIO_URL=nginx:9000
+    depends_on:
+      - nginx
+    networks:
+      - use-case-1
+      
+  execution-service:
+    image: planqk/execution-service:v0.2.0
+    ports:
+      - '5075:5075'
+    networks:
+      - use-case-1
+      
+  optimization-service:
+    image: planqk/optimization-service:v0.3.0
+    ports:
+      - '5074:5074'
+    networks:
+      - use-case-1
+      
+  objective-evaluation-service:
+    image: planqk/objective-evaluation-service:v0.2.0
+    ports:
+      - '5072:5072'
+    networks:
+      - use-case-1
+      
+  circuit-generation-service:
+    image: planqk/quantum-circuit-generator:v0.2.0
+    ports:
+      - '5073:5073'
     networks:
       - use-case-1
 
