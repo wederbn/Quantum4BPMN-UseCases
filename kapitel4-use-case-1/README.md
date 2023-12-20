@@ -4,7 +4,7 @@ Dieser Anwendungsfall zeigt die Modellierung und Ausführung eines variationelle
 
 ## Setup
 
-Alle Komponenten des Anwendungsfalls können mittels [Docker-Compose](https://docs.docker.com/compose/) gestartet werden, wobei ein entsprechendes Docker-Compose File [hier](./docker) verfügbar ist:
+Alle Komponenten des Anwendungsfalls können mittels [Docker-Compose](https://docs.docker.com/compose/) gestartet werden, wobei ein entsprechendes Docker-Compose File [hier](./docker/docker-compose.yml) verfügbar ist:
 
 1. Zunächst muss die IP-Adresse der Maschine, auf der die Docker Engine läuft, in das [.env](./docker/.env) eingetragen werden: 
   * ``PUBLIC_HOSTNAME``: Die IP-Adresse muss öffentlich zugänglich sein und es darf *nicht* ``localhost`` verwendet werden.
@@ -19,6 +19,24 @@ docker-compose up
 
 ## Modellieren und Ausführen des Anwendungsfalls
 
-Der Quantum Workflow Modeler ist unter folgender URL verfügbar: [localhost:8080](http://localhost:8080)
+Der Quantum Workflow Modeler ist unter folgender URL verfügbar: [http://localhost:8080](http://localhost:8080)
+
+Anschließend wird der folgende Bildschirm angezeigt:
+
+![Übersicht über den Modeler](./docs/modeler-overview.jpg)
+
+Der Workflow für diesen Anwendungsfall ist [hier](./workflow/vqa_workflow.bpmn) verfügbar und kann mittels ``Open`` oben links im Modeler geöffnet werden:
+
+![Übersicht über den Workflow](./docs/workflow-overview.jpg)
+
+Vor der Ausführung muss der Workflow in einen nativen Workflow überführt werden, was durch klicken auf den ``Transform Workflow`` erreicht werden kann.
+Bei dieser Transformation werden die QuantMe Modellierungskonstrukte durch native Modellierungskonstrukte ersetzt.
+Außerdem werden die Data Objects entfernt, da die für die Ausführung verwendete [Camunda BPMN Engine](https://camunda.com/platform-7/workflow-engine/) auf Variablen basiert:
+
+![Übersicht über den transformierten Workflow](./docs/workflow-transformed.jpg)
+
+Durch klicken auf den ``Deploy Workflow`` Button wird der Workflow in die Camunda BPMN Engine geladen.
+Diese kann über [http://localhost:8090](http://localhost:8090) geöffnet werden.
+Nach dem Einloggen (Username: demo, Passwort: demo) wird der folgende Bildschirm angezeigt:
 
 TODO
