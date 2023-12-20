@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:quantme="https://github.com/UST-QuAntiL/QuantME-Quantum4BPMN" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Process_1" isExecutable="false">
+    <bpmn2:subProcess id="Activity_0pcsqp7" name="MaxCut zur Aufteilung des Graphs in mehrere Partitionen">
+      <bpmn2:startEvent id="StartEvent_1">
+        <bpmn2:outgoing>Flow_0by5v25</bpmn2:outgoing>
+      </bpmn2:startEvent>
+      <quantme:quantumCircuitLoadingTask id="Activity_0nhrtqc" name="Lade Schaltkreis" url="quokka/maxcut">
+        <bpmn2:incoming>Flow_0by5v25</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0kctuf9</bpmn2:outgoing>
+      </quantme:quantumCircuitLoadingTask>
+      <bpmn2:endEvent id="Event_12d83t8">
+        <bpmn2:incoming>Flow_0r71sft</bpmn2:incoming>
+      </bpmn2:endEvent>
+      <bpmn2:sequenceFlow id="Flow_0by5v25" sourceRef="StartEvent_1" targetRef="Activity_0nhrtqc" />
+      <bpmn2:sequenceFlow id="Flow_0kctuf9" sourceRef="Activity_0nhrtqc" targetRef="Gateway_1he4u1l" />
+      <bpmn2:exclusiveGateway id="Gateway_1he4u1l">
+        <bpmn2:incoming>Flow_0lk6f27</bpmn2:incoming>
+        <bpmn2:incoming>Flow_0kctuf9</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0s0dowc</bpmn2:outgoing>
+      </bpmn2:exclusiveGateway>
+      <quantme:quantumCircuitExecutionTask id="Activity_1c9frnd" name="Führe Schaltkreis aus" provider="ibm" qpu="aer_qasm_simulator" shots="2000" programmingLanguage="qiskit">
+        <bpmn2:incoming>Flow_0s0dowc</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_01b9wf1</bpmn2:outgoing>
+      </quantme:quantumCircuitExecutionTask>
+      <quantme:resultEvaluationTask id="Activity_16z2x7p" name="Evaluiere Ergebnis" objectiveFunction="expectationValue" costFunction="maxcut">
+        <bpmn2:incoming>Flow_01b9wf1</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_1aw5wvc</bpmn2:outgoing>
+      </quantme:resultEvaluationTask>
+      <bpmn2:exclusiveGateway id="Gateway_19sszt6" name="Konvergiert?">
+        <bpmn2:incoming>Flow_1aw5wvc</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_15vu28i</bpmn2:outgoing>
+        <bpmn2:outgoing>Flow_0r71sft</bpmn2:outgoing>
+      </bpmn2:exclusiveGateway>
+      <quantme:parameterOptimizationTask id="Activity_054v3u5" name="Optimiere Parameter" optimizer="cobyla">
+        <bpmn2:incoming>Flow_15vu28i</bpmn2:incoming>
+        <bpmn2:outgoing>Flow_0lk6f27</bpmn2:outgoing>
+      </quantme:parameterOptimizationTask>
+      <bpmn2:sequenceFlow id="Flow_0lk6f27" sourceRef="Activity_054v3u5" targetRef="Gateway_1he4u1l" />
+      <bpmn2:sequenceFlow id="Flow_0s0dowc" sourceRef="Gateway_1he4u1l" targetRef="Activity_1c9frnd" />
+      <bpmn2:sequenceFlow id="Flow_01b9wf1" sourceRef="Activity_1c9frnd" targetRef="Activity_16z2x7p" />
+      <bpmn2:sequenceFlow id="Flow_1aw5wvc" sourceRef="Activity_16z2x7p" targetRef="Gateway_19sszt6" />
+      <bpmn2:sequenceFlow id="Flow_15vu28i" name="Nein" sourceRef="Gateway_19sszt6" targetRef="Activity_054v3u5">
+        <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${ execution.getVariable('converged')== null || execution.getVariable('converged') == 'false'}</bpmn2:conditionExpression>
+      </bpmn2:sequenceFlow>
+      <bpmn2:sequenceFlow id="Flow_0r71sft" name="Ja" sourceRef="Gateway_19sszt6" targetRef="Event_12d83t8" />
+    </bpmn2:subProcess>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="Activity_0bwhck1_di" bpmnElement="Activity_0pcsqp7" isExpanded="true">
+        <dc:Bounds x="750" y="450" width="870" height="280" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1he4u1l_di" bpmnElement="Gateway_1he4u1l" isMarkerVisible="true">
+        <dc:Bounds x="995" y="645" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="QuantumCircuitExecutionTask_1skvacr_di" bpmnElement="Activity_1c9frnd">
+        <dc:Bounds x="1110" y="630" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ResultEvaluationTask_0g6v5w9_di" bpmnElement="Activity_16z2x7p">
+        <dc:Bounds x="1280" y="630" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_19sszt6_di" bpmnElement="Gateway_19sszt6" isMarkerVisible="true">
+        <dc:Bounds x="1455" y="645" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1449" y="702" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ParameterOptimizationTask_0oekqzv_di" bpmnElement="Activity_054v3u5">
+        <dc:Bounds x="1190" y="490" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="QuantumCircuitLoadingTask_18lmxw6_di" bpmnElement="Activity_0nhrtqc">
+        <dc:Bounds x="850" y="630" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="772" y="652" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_12d83t8_di" bpmnElement="Event_12d83t8">
+        <dc:Bounds x="1542" y="652" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0by5v25_di" bpmnElement="Flow_0by5v25">
+        <di:waypoint x="808" y="670" />
+        <di:waypoint x="850" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kctuf9_di" bpmnElement="Flow_0kctuf9">
+        <di:waypoint x="950" y="670" />
+        <di:waypoint x="995" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lk6f27_di" bpmnElement="Flow_0lk6f27">
+        <di:waypoint x="1190" y="530" />
+        <di:waypoint x="1020" y="530" />
+        <di:waypoint x="1020" y="645" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s0dowc_di" bpmnElement="Flow_0s0dowc">
+        <di:waypoint x="1045" y="670" />
+        <di:waypoint x="1110" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01b9wf1_di" bpmnElement="Flow_01b9wf1">
+        <di:waypoint x="1210" y="670" />
+        <di:waypoint x="1280" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1aw5wvc_di" bpmnElement="Flow_1aw5wvc">
+        <di:waypoint x="1380" y="670" />
+        <di:waypoint x="1455" y="670" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15vu28i_di" bpmnElement="Flow_15vu28i">
+        <di:waypoint x="1480" y="645" />
+        <di:waypoint x="1480" y="530" />
+        <di:waypoint x="1290" y="530" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1484" y="613" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r71sft_di" bpmnElement="Flow_0r71sft">
+        <di:waypoint x="1505" y="670" />
+        <di:waypoint x="1542" y="670" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1518" y="652" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

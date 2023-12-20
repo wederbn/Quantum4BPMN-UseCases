@@ -5,7 +5,7 @@
       <bpmn2:startEvent id="Event_0a53oiw">
         <bpmn2:outgoing>Flow_09t6nnu</bpmn2:outgoing>
       </bpmn2:startEvent>
-      <bpmn2:subProcess id="Activity_1f4v8t2" name="MaxCut zur Aufteilung des Graphs in mehrere Partitionen">
+      <bpmn2:subProcess id="Activity_1f4v8t2" name="TSP zur Berechnung der kürzesten Route">
         <bpmn2:extensionElements>
           <camunda:inputOutput>
             <camunda:inputParameter name="gammas">
