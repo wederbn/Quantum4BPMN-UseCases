@@ -14,46 +14,54 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="url">http://error-mitigation-service:5071/rem/</camunda:inputParameter>
             <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="JavaScript">
-var qpu = execution.getVariable("qpu");
-var token = execution.getVariable("token");
-var hub = execution.getVariable("hub");
-var group = execution.getVariable("group");
-var project = execution.getVariable("project");
-var url = execution.getVariable("ibmqUrl");
-var counts = execution.getVariable("counts");
-var maxAge = execution.getVariable("maxAge");
-var measQubits = execution.getVariable("measQubits")
-var noiseModel = execution.getVariable("noiseModel");
-var onlyMeasurementErrors = execution.getVariable("onlyMeasurementErrors");
-var counts = execution.getVariable("counts").toString();             
-counts = JSON.parse(counts)
-counts = counts["counts"]
+              <camunda:script scriptFormat="Groovy">import groovy.json.JsonBuilder
+def qpu = execution.getVariable("qpu");
+def token = execution.getVariable("token");
+def hub= execution.getVariable("hub");
+def group = execution.getVariable("group");
+def url = execution.getVariable("ibmqUrl");
+def counts = execution.getVariable("counts");
+def project = execution.getVariable("project");
+def maxAge = execution.getVariable("maxAge");
+def provider = execution.getVariable("provider");
+def measQubits = execution.getVariable("measQubits");
+println("Measured qubits:");
+println(measQubits);
+def noiseModel = execution.getVariable("noiseModel");
+def onlyMeasurementErrors = execution.getVariable("onlyMeasurementErrors");
+def counts = execution.getVariable("counts");
+println("Counts to mitigate:");
+println(counts);
+def calibrationMethod = execution.getVariable("calibrationMethod");
+println("Calibration method:");
+println(calibrationMethod);
+def mitigationMethod = execution.getVariable("mitigationMethod");
+println("Mitigation method:");
+println(mitigationMethod);
 
-var calibrationMethod= execution.getVariable("calibrationMethod")
-var mitigationMethod = execution.getVariable("mitigationMethod")
+println("Building mitigation request...");
+def credentials = [:];
+credentials.put("token", token);
+credentials.put("hub", "ibm-q");
+credentials.put("group", "open")
+credentials.put("project", "main");
+credentials.put("url", "https://auth.quantum-computing.ibm.com/api");
+def request = [:];
+request.put("credentials", credentials);
+request.put("counts", counts);
+request.put("mitigation_method", mitigationMethod)
+request.put("cm_gen_method", calibrationMethod);
+request.put("qpu", qpu);
+request.put("qubits", measQubits);
+request.put("max_age", maxAge);
+request.put("provider", provider);
+request.put("noise_model", noiseModel);
+request.put("only_measurement_errors", onlyMeasurementErrors);
+println("Mitigation request created...");
 
-
-measQubits = measQubits.substring(1,measQubits.length-1).replace(" ", "");
-                measQubits = measQubits.split(",");
-                new_matrix = []
-                for each (var val in measQubits) {
-                   new_matrix.push(parseFloat(val));
-                }
-          measQubits=new_matrix
-
-
-var myJson = {"counts": counts,
-"mitigation_method":mitigationMethod,"cm_gen_method": calibrationMethod, "qpu": qpu, "qubits": measQubits, "max_age":maxAge, 
-"credentials":{
-                    "token": token, "hub": hub, "group": group, "project":project, "url":url
-                    },
-"provider": "IBM", "noise_model": noiseModel, "only_measurement_errors": onlyMeasurementErrors
-};
-                
-                
-myJson = JSON.stringify(myJson);
-myJson =myJson;</camunda:script>
+requeststring = new JsonBuilder(request).toPrettyString()
+println(requeststring);
+return requeststring;</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="mitigatedCounts">
               <camunda:script scriptFormat="JavaScript">//${S(response)}
