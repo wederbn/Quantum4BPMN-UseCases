@@ -1,3 +1,3 @@
-# Anwendungsfall 3: Grovers Algorithmus
+# Anwendungsfall 4: Berechnung von Zuliefererrouten
 
 TODO
