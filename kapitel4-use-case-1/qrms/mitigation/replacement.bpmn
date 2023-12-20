@@ -16,11 +16,10 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="Groovy">import groovy.json.JsonBuilder
 def qpu = execution.getVariable("qpu");
-def token = execution.getVariable("token");
+def token = execution.getVariable("quantum_token_ibmq");
 def hub= execution.getVariable("hub");
 def group = execution.getVariable("group");
 def url = execution.getVariable("ibmqUrl");
-def counts = execution.getVariable("counts");
 def project = execution.getVariable("project");
 def maxAge = execution.getVariable("maxAge");
 def provider = execution.getVariable("provider");
