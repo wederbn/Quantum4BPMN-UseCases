@@ -1,5 +1,11 @@
 version: '3'
 
+volumes:
+  data1-1:
+  data1-2:
+  data2-1:
+  data2-2:
+
 services:
   workflow-modeler:
     image: planqk/workflow-modeler:v1.2.0
