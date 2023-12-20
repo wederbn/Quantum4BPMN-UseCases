@@ -120,6 +120,8 @@ services:
     image: planqk/optimization-service:v0.3.0
     ports:
       - '5074:5074'
+    environment:
+      CAMUNDA_ENDPOINT: http://${PUBLIC_HOSTNAME}:8090/engine-rest
     networks:
       - use-case-1
       
