@@ -47,12 +47,12 @@
         <bpmn:targetRef>Property_0btxot7</bpmn:targetRef>
       </bpmn:dataInputAssociation>
     </bpmn:userTask>
-    <bpmn:exclusiveGateway id="Gateway_0wq36cd" name="Konvergiert?">
+    <bpmn:exclusiveGateway id="Gateway_0wq36cd" name="Konvergiert?" camunda:asyncBefore="true" camunda:asyncAfter="true">
       <bpmn:incoming>Flow_0wlfysg</bpmn:incoming>
       <bpmn:outgoing>Flow_0czrsh0</bpmn:outgoing>
       <bpmn:outgoing>Flow_0tljgkh</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <quantme:parameterOptimizationTask id="ParameterOptimizationTask_01m89mt" name="Optimiere&#10;Parameter" opentosca:onDemand="false" optimizer="cobyla">
+    <quantme:parameterOptimizationTask id="ParameterOptimizationTask_01m89mt" name="Optimiere&#10;Parameter" camunda:asyncBefore="true" camunda:asyncAfter="true" opentosca:onDemand="false" optimizer="cobyla">
       <bpmn:incoming>Flow_05sf6lt</bpmn:incoming>
       <bpmn:outgoing>Flow_0wlfysg</bpmn:outgoing>
       <bpmn:property id="Property_0n3lkml" name="__targetRef_placeholder" />
@@ -67,13 +67,13 @@
         <bpmn:targetRef>ResultObject_0lvdfg1</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </quantme:parameterOptimizationTask>
-    <bpmn:exclusiveGateway id="Gateway_0qaj4kt">
+    <bpmn:exclusiveGateway id="Gateway_0qaj4kt" camunda:asyncBefore="true" camunda:asyncAfter="true">
       <bpmn:incoming>Flow_1qkl8n3</bpmn:incoming>
       <bpmn:incoming>Flow_0tljgkh</bpmn:incoming>
       <bpmn:outgoing>Flow_1m60wcg</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_1m60wcg" sourceRef="Gateway_0qaj4kt" targetRef="Task_009hsrk" />
-    <quantme:quantumCircuitLoadingTask id="Task_009hsrk" name="Generiere&#10;Schaltkreis" opentosca:onDemand="false" url="quokka/maxcut">
+    <quantme:quantumCircuitLoadingTask id="Task_009hsrk" name="Generiere&#10;Schaltkreis" camunda:asyncBefore="true" camunda:asyncAfter="true" opentosca:onDemand="false" url="quokka/maxcut">
       <bpmn:incoming>Flow_1m60wcg</bpmn:incoming>
       <bpmn:outgoing>Flow_18kx5os</bpmn:outgoing>
       <bpmn:property id="Property_1amu0iw" name="__targetRef_placeholder" />
@@ -98,7 +98,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ execution.getVariable('converged')== null || execution.getVariable('converged') == 'false'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0wlfysg" sourceRef="ParameterOptimizationTask_01m89mt" targetRef="Gateway_0wq36cd" />
-    <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_1dyvma5" name="Führe Schaltkreis aus" provider="ibmq" qpu="aer_qasm_simulator" shots="2000" programmingLanguage="openqasm">
+    <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_1dyvma5" name="Führe Schaltkreis aus" camunda:asyncBefore="true" camunda:asyncAfter="true" provider="ibmq" qpu="aer_qasm_simulator" shots="2000" programmingLanguage="openqasm">
       <bpmn:extensionElements>
         <camunda:inputOutput />
       </bpmn:extensionElements>
@@ -125,7 +125,7 @@
     <bpmn:dataObject id="DataObject_1goxjil" />
     <quantme:parameterizationObject id="ResultObject_0lvdfg1" name="Parameter" dataObjectRef="DataObject_0o6s4rk" />
     <bpmn:dataObject id="DataObject_0o6s4rk" />
-    <quantme:readoutErrorMitigationTask id="ErrorMitigationTask_0933y5e" name="Schwäche&#10;Fehler ab" opentosca:onDemand="false" provider="ibmq" qpu="aer_qasm_simulator" shots="1000" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion" objectiveFunction="expectationValue" maxAge="360">
+    <quantme:readoutErrorMitigationTask id="ErrorMitigationTask_0933y5e" name="Schwäche&#10;Fehler ab" camunda:asyncBefore="true" camunda:asyncAfter="true" opentosca:onDemand="false" provider="ibmq" qpu="aer_qasm_simulator" shots="1000" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion" objectiveFunction="expectationValue" maxAge="360">
       <bpmn:incoming>Flow_1gna4fr</bpmn:incoming>
       <bpmn:outgoing>Flow_05sf6lt</bpmn:outgoing>
       <bpmn:property id="Property_0ft6r9z" name="__targetRef_placeholder" />
