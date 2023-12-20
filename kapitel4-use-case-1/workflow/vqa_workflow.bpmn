@@ -98,8 +98,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ execution.getVariable('converged')== null || execution.getVariable('converged') == 'false'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0wlfysg" sourceRef="ParameterOptimizationTask_01m89mt" targetRef="Gateway_0wq36cd" />
-    <bpmn:sequenceFlow id="Flow_05sf6lt" sourceRef="ResultEvaluationTask_0933y5e" targetRef="ParameterOptimizationTask_01m89mt" />
-    <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_1dyvma5" name="Führe Schaltkreis aus" provider="ibm" qpu="aer_qasm_simulator" shots="2000" programmingLanguage="openqasm">
+    <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_1dyvma5" name="Führe Schaltkreis aus" provider="ibmq" qpu="aer_qasm_simulator" shots="2000" programmingLanguage="openqasm">
       <bpmn:extensionElements>
         <camunda:inputOutput />
       </bpmn:extensionElements>
@@ -114,19 +113,6 @@
         <bpmn:targetRef>QuantumCircuitObject_1qholwn</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </quantme:quantumCircuitExecutionTask>
-    <bpmn:sequenceFlow id="Flow_1gna4fr" sourceRef="QuantumCircuitExecutionTask_1dyvma5" targetRef="ResultEvaluationTask_0933y5e" />
-    <quantme:readoutErrorMitigationTask id="ResultEvaluationTask_0933y5e" name="Schwäche&#10;Fehler ab" opentosca:onDemand="false" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion" objectiveFunction="expectationValue">
-      <bpmn:incoming>Flow_1gna4fr</bpmn:incoming>
-      <bpmn:outgoing>Flow_05sf6lt</bpmn:outgoing>
-      <bpmn:property id="Property_1lpkvga" name="__targetRef_placeholder" />
-      <bpmn:dataInputAssociation id="DataInputAssociation_0rnl2xz">
-        <bpmn:sourceRef>QuantumCircuitObject_1qholwn</bpmn:sourceRef>
-        <bpmn:targetRef>Property_1lpkvga</bpmn:targetRef>
-      </bpmn:dataInputAssociation>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_1bj6cw6">
-        <bpmn:targetRef>ResultObject_0hadbqc</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </quantme:readoutErrorMitigationTask>
     <bpmn:dataObjectReference id="DataObjectReference_0eds44k" name="Eingabedaten" dataObjectRef="DataObject_0ukxe04" />
     <bpmn:dataObject id="DataObject_0ukxe04" />
     <quantme:quantumCircuitObject id="DataObjectReference_173i25n" name="Schaltkreis" dataObjectRef="DataObject_0nc6ztb" />
@@ -139,6 +125,20 @@
     <bpmn:dataObject id="DataObject_1goxjil" />
     <quantme:parameterizationObject id="ResultObject_0lvdfg1" name="Parameter" dataObjectRef="DataObject_0o6s4rk" />
     <bpmn:dataObject id="DataObject_0o6s4rk" />
+    <quantme:readoutErrorMitigationTask id="ErrorMitigationTask_0933y5e" name="Schwäche&#10;Fehler ab" opentosca:onDemand="false" provider="ibmq" qpu="aer_qasm_simulator" shots="1000" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion" objectiveFunction="expectationValue" maxAge="360">
+      <bpmn:incoming>Flow_1gna4fr</bpmn:incoming>
+      <bpmn:outgoing>Flow_05sf6lt</bpmn:outgoing>
+      <bpmn:property id="Property_0ft6r9z" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_0rnl2xz">
+        <bpmn:sourceRef>QuantumCircuitObject_1qholwn</bpmn:sourceRef>
+        <bpmn:targetRef>Property_0ft6r9z</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1bj6cw6">
+        <bpmn:targetRef>ResultObject_0hadbqc</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </quantme:readoutErrorMitigationTask>
+    <bpmn:sequenceFlow id="Flow_05sf6lt" sourceRef="ErrorMitigationTask_0933y5e" targetRef="ParameterOptimizationTask_01m89mt" />
+    <bpmn:sequenceFlow id="Flow_1gna4fr" sourceRef="QuantumCircuitExecutionTask_1dyvma5" targetRef="ErrorMitigationTask_0933y5e" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_070m5p1">
@@ -171,10 +171,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0tjmb6w" bpmnElement="QuantumCircuitExecutionTask_1dyvma5">
         <dc:Bounds x="680" y="215" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ReadoutErrorMitigationTask_0yswbv8_di" bpmnElement="ResultEvaluationTask_0933y5e">
-        <dc:Bounds x="820" y="215" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataObjectReference_0eds44k_di" bpmnElement="DataObjectReference_0eds44k">
@@ -212,6 +208,10 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="774" y="182" width="53" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReadoutErrorMitigationTask_0yswbv8_di" bpmnElement="ErrorMitigationTask_0933y5e">
+        <dc:Bounds x="820" y="215" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0ta9xxo_di" bpmnElement="DataOutputAssociation_0ta9xxo">
         <di:waypoint x="410" y="273" />
@@ -289,10 +289,6 @@
         <di:waypoint x="1060" y="255" />
         <di:waypoint x="1105" y="255" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_05sf6lt_di" bpmnElement="Flow_05sf6lt">
-        <di:waypoint x="920" y="255" />
-        <di:waypoint x="960" y="255" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataInputAssociation_0kdqfz3_di" bpmnElement="DataInputAssociation_0kdqfz3">
         <di:waypoint x="678" y="360" />
         <di:waypoint x="700" y="360" />
@@ -303,10 +299,6 @@
         <di:waypoint x="750" y="360" />
         <di:waypoint x="780" y="360" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1gna4fr_di" bpmnElement="Flow_1gna4fr">
-        <di:waypoint x="780" y="255" />
-        <di:waypoint x="820" y="255" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataInputAssociation_0rnl2xz_di" bpmnElement="DataInputAssociation_0rnl2xz">
         <di:waypoint x="818" y="360" />
         <di:waypoint x="850" y="360" />
@@ -316,6 +308,14 @@
         <di:waypoint x="890" y="295" />
         <di:waypoint x="890" y="360" />
         <di:waypoint x="920" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05sf6lt_di" bpmnElement="Flow_05sf6lt">
+        <di:waypoint x="920" y="255" />
+        <di:waypoint x="960" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gna4fr_di" bpmnElement="Flow_1gna4fr">
+        <di:waypoint x="780" y="255" />
+        <di:waypoint x="820" y="255" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
