@@ -41,13 +41,13 @@
       <bpmn:incoming>Flow_0zkhmwt</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_03zrxe7</bpmn:outgoing>
     </bpmn:serviceTask>
-    <quantme:quantumComputationTask id="Task_0qfiqux" name="Berechne Cluster&#10;(k-means)" provider="ibmq">
+    <quantme:quantumComputationTask id="Task_0qfiqux" name="Berechne Cluster&#10;(k-means)" algorithm="k-means" provider="ibmq">
       <bpmn:incoming>Flow_1dpqbzm</bpmn:incoming>
       <bpmn:outgoing>Flow_1n7j9rs</bpmn:outgoing>
     </quantme:quantumComputationTask>
     <bpmn:sequenceFlow id="Flow_1dpqbzm" sourceRef="Task_0bysx93" targetRef="Task_0qfiqux" />
     <bpmn:sequenceFlow id="Flow_1n7j9rs" sourceRef="Task_0qfiqux" targetRef="Activity_0zfa8r5" />
-    <quantme:quantumComputationTask id="Activity_0zfa8r5" name="Trainiere Klassifizierer (QSVM)">
+    <quantme:quantumComputationTask id="Activity_0zfa8r5" name="Trainiere Klassifizierer (QSVM)" algorithm="QSVM" provider="ibmq">
       <bpmn:incoming>Flow_1n7j9rs</bpmn:incoming>
       <bpmn:outgoing>Flow_0zkhmwt</bpmn:outgoing>
     </quantme:quantumComputationTask>
