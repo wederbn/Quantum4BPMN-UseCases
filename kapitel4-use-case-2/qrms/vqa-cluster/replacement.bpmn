@@ -23,7 +23,7 @@
         <bpmn:incoming>Flow_1q41ir2</bpmn:incoming>
         <bpmn:outgoing>Flow_0w9ksjo</bpmn:outgoing>
       </bpmn:serviceTask>
-      <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_06if0kz" name="Führe Schaltkreise aus" provider="ibmq" programmingLanguage="openqasm">
+      <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_06if0kz" name="Führe Schaltkreise aus" provider="ibmq" qpu="*" programmingLanguage="openqasm">
         <bpmn:incoming>Flow_0xebdi7</bpmn:incoming>
         <bpmn:outgoing>Flow_149r0wi</bpmn:outgoing>
       </quantme:quantumCircuitExecutionTask>
@@ -48,8 +48,17 @@
       <bpmndi:BPMNShape id="Activity_15x82ik_di" bpmnElement="Activity_15x82ik" isExpanded="true">
         <dc:Bounds x="600" y="453" width="600" height="287" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0eegqej_di" bpmnElement="Event_0eegqej">
+        <dc:Bounds x="642" y="632" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0odu1g5" bpmnElement="Gateway_0ss4vdu" isMarkerVisible="true">
         <dc:Bounds x="705" y="625" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_094thai" bpmnElement="Gateway_19mid6y" isMarkerVisible="true">
+        <dc:Bounds x="1055" y="625" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1049" y="682" width="63" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_09e05dy" bpmnElement="Activity_0xjxfjs">
         <dc:Bounds x="910" y="610" width="100" height="80" />
@@ -65,15 +74,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_06k9t47_di" bpmnElement="Event_06k9t47">
         <dc:Bounds x="1142" y="632" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_094thai" bpmnElement="Gateway_19mid6y" isMarkerVisible="true">
-        <dc:Bounds x="1055" y="625" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1049" y="682" width="63" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0eegqej_di" bpmnElement="Event_0eegqej">
-        <dc:Bounds x="642" y="632" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_0g8vhzf" bpmnElement="Flow_0w9ksjo">
         <di:waypoint x="850" y="513" />

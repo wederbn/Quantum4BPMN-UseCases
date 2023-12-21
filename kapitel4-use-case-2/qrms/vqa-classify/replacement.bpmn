@@ -23,7 +23,7 @@
         <bpmn:incoming>Flow_0ju74hh</bpmn:incoming>
         <bpmn:outgoing>Flow_0jsn8gf</bpmn:outgoing>
       </bpmn:serviceTask>
-      <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_0hrgpcq" name="Führe Schaltkreise aus" provider="ibmq" programmingLanguage="qiskit">
+      <quantme:quantumCircuitExecutionTask id="QuantumCircuitExecutionTask_0hrgpcq" name="Führe Schaltkreise aus" provider="ibmq" qpu="*" programmingLanguage="qiskit">
         <bpmn:incoming>Flow_0lhq20m</bpmn:incoming>
         <bpmn:outgoing>Flow_0ju74hh</bpmn:outgoing>
       </quantme:quantumCircuitExecutionTask>
@@ -48,8 +48,17 @@
       <bpmndi:BPMNShape id="Activity_11dwl7f_di" bpmnElement="Activity_11dwl7f" isExpanded="true">
         <dc:Bounds x="80" y="80" width="750" height="230" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0we7zjf_di" bpmnElement="Event_0we7zjf">
+        <dc:Bounds x="102" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0cix0xa" bpmnElement="Gateway_0hg2f4z" isMarkerVisible="true">
         <dc:Bounds x="315" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1kwbx4e" bpmnElement="Gateway_01tx52b" isMarkerVisible="true">
+        <dc:Bounds x="685" y="185" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="671" y="242" width="80" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_1985z4w" bpmnElement="Activity_03masdi">
         <dc:Bounds x="180" y="170" width="100" height="80" />
@@ -63,17 +72,8 @@
         <dc:Bounds x="390" y="170" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0we7zjf_di" bpmnElement="Event_0we7zjf">
-        <dc:Bounds x="102" y="192" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0geoqws_di" bpmnElement="Event_0geoqws">
         <dc:Bounds x="772" y="192" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1kwbx4e" bpmnElement="Gateway_01tx52b" isMarkerVisible="true">
-        <dc:Bounds x="685" y="185" width="50" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="671" y="242" width="80" height="27" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_15u269l" bpmnElement="Flow_0lun87s">
         <di:waypoint x="280" y="210" />
@@ -92,17 +92,17 @@
         <di:waypoint x="365" y="210" />
         <di:waypoint x="390" y="210" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0p86lu1_di" bpmnElement="Flow_0p86lu1">
-        <di:waypoint x="138" y="210" />
-        <di:waypoint x="180" y="210" />
+      <bpmndi:BPMNEdge id="BPMNEdge_0of165y" bpmnElement="Flow_0jsn8gf">
+        <di:waypoint x="620" y="210" />
+        <di:waypoint x="685" y="210" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_1m2g181" bpmnElement="Flow_0ju74hh">
         <di:waypoint x="490" y="210" />
         <di:waypoint x="520" y="210" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="BPMNEdge_0of165y" bpmnElement="Flow_0jsn8gf">
-        <di:waypoint x="620" y="210" />
-        <di:waypoint x="685" y="210" />
+      <bpmndi:BPMNEdge id="Flow_0p86lu1_di" bpmnElement="Flow_0p86lu1">
+        <di:waypoint x="138" y="210" />
+        <di:waypoint x="180" y="210" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1nnt0f0_di" bpmnElement="Flow_1nnt0f0">
         <di:waypoint x="735" y="210" />
