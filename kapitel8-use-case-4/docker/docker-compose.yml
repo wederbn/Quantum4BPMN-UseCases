@@ -20,7 +20,7 @@ services:
       - use-case-4
 
   camunda-engine:
-    image: planqk/camunda-process-views-plugin:v1.0.0
+    build: camunda
     ports:
       - 8090:8080
     networks:
