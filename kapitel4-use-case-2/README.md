@@ -43,11 +43,26 @@ Diese Transformation muss für den Anwendungsfall zwei mal durchgeführt werden,
 
 ![Übersicht über den transformierten Workflow](./docs/workflow-transformed.jpg)
 
-Um den Workflow auszuführen können die erforderlichen Services mittels der an die Aktivitäten angehängten Deploymentmodelle bereitgestellt werden.
+Um den Workflow auszuführen, können die erforderlichen Services mittels der an die Aktivitäten angehängten Deploymentmodelle bereitgestellt werden.
 Der Dialog für die Bereitstellung wird durch klicken auf ``OpenTOSCA`` und anschließend ``Service Deployment`` geöffnet.
 Dieser bietet eine Übersicht über alle CSARs die für die Bereitstellung in den OpenTOSCA geladen werden müssen.
 Der Upload wird über den ``Upload CSARs`` Button gestartet:
 
 ![Übersicht über die hochzuladenden CSARs](./docs/csar-upload.jpg)
+
+Nach erfolgreichem Upload der CSARs fragt der Dialog die erforderlichen Eingabedaten für die Bereitstellung der Services vom Nutzer ab.
+Dies umfasst beispielsweise das Projekt bzw. die Gruppe der Quantencomputer die bei IBMQ verwendet werden sollen:
+
+![Übersicht über die Eingabedaten](./docs/input-overview.jpg)
+
+Anschließend werden die erforderlichen Services vom OpenTOSCA Container bereitgestellt, was mehrere Minuten in Anspruch nehmen kann.
+Nach der Bereitstellung muss das Binding der Services mit dem Workflow durchgeführt werden.
+Hierfür listet der Dialog alle Service Tasks auf, die automatisch durch klicken auf ``Perform Binding`` für den Aufruf der Services angepasst werden:
+
+![Übersicht über das Binding](./docs/binding.jpg)
+
+Durch klicken auf den ``Deploy Workflow`` Button wird der Workflow in die Camunda BPMN Engine geladen.
+Diese kann über [http://localhost:8090](http://localhost:8090) geöffnet werden.
+Nach dem Einloggen (Username: demo, Passwort: demo) wird der folgende Bildschirm angezeigt:
 
 TODO
