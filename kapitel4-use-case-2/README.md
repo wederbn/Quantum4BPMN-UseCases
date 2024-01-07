@@ -37,4 +37,17 @@ Der Workflow für diesen Anwendungsfall ist [hier](./workflow/quantum-humanities
 
 ![Übersicht über den Workflow](./docs/workflow-overview.jpg)
 
+Vor der Ausführung muss der Workflow in einen nativen Workflow überführt werden, was durch klicken auf ``Transform Workflow`` erreicht werden kann.
+Bei dieser Transformation werden die QuantMe Modellierungskonstrukte durch native Modellierungskonstrukte ersetzt.
+Diese Transformation muss für den Anwendungsfall zwei mal durchgeführt werden, da zunächst bei der Ersetzung der Quantum Computation Tasks neue Quantum Circuit Execution Tasks eingefügt werden, die dann in der zweiten Transformation durch native Modellierungskonstrukte ersetzt werden:
+
+![Übersicht über den transformierten Workflow](./docs/workflow-transformed.jpg)
+
+Um den Workflow auszuführen können die erforderlichen Services mittels der an die Aktivitäten angehängten Deploymentmodelle bereitgestellt werden.
+Der Dialog für die Bereitstellung wird durch klicken auf ``OpenTOSCA`` und anschließend ``Service Deployment`` geöffnet.
+Dieser bietet eine Übersicht über alle CSARs die für die Bereitstellung in den OpenTOSCA geladen werden müssen.
+Der Upload wird über den ``Upload CSARs`` Button gestartet:
+
+![Übersicht über die hochzuladenden CSARs](./docs/csar-upload.jpg)
+
 TODO
