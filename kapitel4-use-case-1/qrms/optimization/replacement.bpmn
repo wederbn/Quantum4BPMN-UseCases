@@ -110,7 +110,6 @@
   def adjMatrix = execution.getVariable("adjMatrix");
   def mitigatedCounts = execution.getVariable("mitigatedCounts");
   def counts = execution.getVariable("counts")[0];
-  def objFun = execution.getVariable("objectiveFunction");
 
   if (mitigatedCounts != null) {
     counts = mitigatedCounts
@@ -120,7 +119,7 @@
   request.put("visualization", "True"  )
   request.put("adj_matrix", adjMatrix);
   request.put("counts", counts);
-  request.put("objFun", objFun);
+  request.put("objFun", "expectationValue");
 
   def objFun_hyperparameters = [:]
   if (execution.getVariable("alpha") != null){

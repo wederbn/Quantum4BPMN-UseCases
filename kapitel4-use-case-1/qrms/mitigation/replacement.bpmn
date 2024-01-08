@@ -63,11 +63,9 @@ println(requeststring);
 return requeststring;</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="mitigatedCounts">
-              <camunda:script scriptFormat="JavaScript">//${S(response)}
-
-var resp = connector.getVariable("response")
-var result = S(resp);
-result;</camunda:script>
+              <camunda:script scriptFormat="Groovy">def resp = connector.getVariable("response");
+def slurper = new groovy.json.JsonSlurperClassic().parseText(resp)
+return slurper;</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
