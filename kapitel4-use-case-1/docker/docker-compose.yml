@@ -8,7 +8,7 @@ volumes:
 
 services:
   workflow-modeler:
-    image: planqk/workflow-modeler:v1.2.0
+    image: planqk/workflow-modeler:v1.3.1
     environment:
      CAMUNDA_ENDPOINT: http://${PUBLIC_HOSTNAME}:8090/engine-rest
      ENABLE_DATA_FLOW_PLUGIN: 'false'
@@ -98,7 +98,7 @@ services:
       - use-case-1
   
   error-mitigation-service:
-    image: planqk/error-mitigation-service:v0.3.0
+    image: planqk/error-mitigation-service:v1.0.1
     command: app.py
     ports:
       - "5071:5071"
