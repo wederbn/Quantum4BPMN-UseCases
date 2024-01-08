@@ -125,7 +125,7 @@
     <bpmn:dataObject id="DataObject_1goxjil" />
     <quantme:parameterizationObject id="ResultObject_0lvdfg1" name="Parameter" dataObjectRef="DataObject_0o6s4rk" />
     <bpmn:dataObject id="DataObject_0o6s4rk" />
-    <quantme:readoutErrorMitigationTask id="ErrorMitigationTask_0933y5e" name="Schwäche&#10;Fehler ab" camunda:asyncBefore="true" camunda:asyncAfter="true" opentosca:onDemand="false" provider="ibmq" qpu="aer_qasm_simulator" shots="1000" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion" objectiveFunction="expectationValue" maxAge="360">
+    <quantme:readoutErrorMitigationTask id="ErrorMitigationTask_0933y5e" name="Schwäche&#10;Fehler ab" camunda:asyncBefore="true" camunda:asyncAfter="true" opentosca:onDemand="false" provider="ibmq" qpu="aer_qasm_simulator" shots="1000" calibrationMethod="standard" mitigationMethod="matrixInversion" objectiveFunction="expectationValue" maxAge="360">
       <bpmn:incoming>Flow_1gna4fr</bpmn:incoming>
       <bpmn:outgoing>Flow_05sf6lt</bpmn:outgoing>
       <bpmn:property id="Property_0ft6r9z" name="__targetRef_placeholder" />
