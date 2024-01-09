@@ -72,4 +72,12 @@ Durch klicken auf den ``Deploy Workflow`` Button wird der Workflow in die Camund
 Diese kann über [http://localhost:8090](http://localhost:8090) geöffnet werden.
 Nach dem Einloggen (Username: demo, Passwort: demo) wird der folgende Bildschirm angezeigt:
 
+![Übersicht über die Camunda Engine](./docs/camunda-overview.jpg)
+
+In der Camunda Tasklist können Workflowinstanzen gestartet werden:
+
+![Übersicht über die Camunda Tasklist](./docs/camunda-tasklist.jpg)
+
+Dazu wird der Button ``Start process`` oben links verwendet, im Popup der Name des Workflows ausgewählt und schließlich die Eingabedaten übergeben:
+
 TODO
