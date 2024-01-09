@@ -82,7 +82,7 @@ Dazu wird der Button ``Start process`` oben links verwendet, im Popup der Name d
 
 ![Übersicht über die Eingabedaten](./docs/tasklist-input.jpg)
 
-Hierbei muss ein Token für den Zugriff auf IBMQ angegeben und eine zu verwendende QPU ausgewählt werden (im Beispiel der aer_qasm_simulator).
+Hierbei muss ein Token für den Zugriff auf IBMQ angegeben und eine zu verwendende QPU ausgewählt werden (im Beispiel der ibmq_qasm_simulator).
 Zudem wird die URL für den Zugriff auf die erforderlichen Kostümdaten angegeben, wobei [hier](./data) zwei Beispieldatensätze verfügbar sind.
 Anschließend wird die Workflow Instanz durch den ``Start`` Button erzeugt.
 Die laufenden Workfloswinstanzen können im Camunda Cockpit überwacht worden.
