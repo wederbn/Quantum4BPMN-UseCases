@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:quantme="https://github.com/UST-QuAntiL/QuantME-Quantum4BPMN" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Process_1" isExecutable="true">
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>Flow_1h08u9o</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="Flow_1h08u9o" sourceRef="StartEvent_1" targetRef="Activity_0b0s7eb" />
+    <bpmn2:sequenceFlow id="Flow_11rs3g7" sourceRef="Activity_0b0s7eb" targetRef="Activity_1thofxb" />
+    <bpmn2:sequenceFlow id="Flow_02j0l2f" sourceRef="Activity_1thofxb" targetRef="Activity_1d4wxc0" />
+    <bpmn2:sequenceFlow id="Flow_0y7deob" sourceRef="Activity_1d4wxc0" targetRef="Activity_17xxbpa" />
+    <bpmn2:sequenceFlow id="Flow_0442svf" sourceRef="Activity_17xxbpa" targetRef="Activity_0zp0tk5" />
+    <bpmn2:endEvent id="Event_0l7ov6a">
+      <bpmn2:incoming>Flow_1rhn812</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_1rhn812" sourceRef="Activity_0zp0tk5" targetRef="Event_0l7ov6a" />
+    <quantme:quantumCircuitLoadingTask id="Activity_0b0s7eb" name="Lade&#10;Schaltkreis">
+      <bpmn2:incoming>Flow_1h08u9o</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_11rs3g7</bpmn2:outgoing>
+    </quantme:quantumCircuitLoadingTask>
+    <quantme:oracleExpansionTask id="Activity_1thofxb" name="Ersetze&#10;Orakel">
+      <bpmn2:incoming>Flow_11rs3g7</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_02j0l2f</bpmn2:outgoing>
+    </quantme:oracleExpansionTask>
+    <quantme:quantumCircuitExecutionTask id="Activity_1d4wxc0" name="Führe Schaltkreis&#10;aus">
+      <bpmn2:incoming>Flow_02j0l2f</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0y7deob</bpmn2:outgoing>
+    </quantme:quantumCircuitExecutionTask>
+    <quantme:readoutErrorMitigationTask id="Activity_17xxbpa" name="Schwäche&#10;Fehler ab" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion">
+      <bpmn2:incoming>Flow_0y7deob</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_0442svf</bpmn2:outgoing>
+    </quantme:readoutErrorMitigationTask>
+    <bpmn2:userTask id="Activity_0zp0tk5" name="Evaluiere&#10;Klauseln">
+      <bpmn2:incoming>Flow_0442svf</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1rhn812</bpmn2:outgoing>
+    </bpmn2:userTask>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="412" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l7ov6a_di" bpmnElement="Event_0l7ov6a">
+        <dc:Bounds x="1302" y="240" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="QuantumCircuitLoadingTask_162eac8_di" bpmnElement="Activity_0b0s7eb">
+        <dc:Bounds x="500" y="218" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="OracleExpansionTask_06e7raz_di" bpmnElement="Activity_1thofxb">
+        <dc:Bounds x="660" y="218" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="QuantumCircuitExecutionTask_032aer7_di" bpmnElement="Activity_1d4wxc0">
+        <dc:Bounds x="820" y="218" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReadoutErrorMitigationTask_0q0wqzr_di" bpmnElement="Activity_17xxbpa">
+        <dc:Bounds x="980" y="218" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03ibax0_di" bpmnElement="Activity_0zp0tk5">
+        <dc:Bounds x="1140" y="218" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1h08u9o_di" bpmnElement="Flow_1h08u9o">
+        <di:waypoint x="448" y="258" />
+        <di:waypoint x="500" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11rs3g7_di" bpmnElement="Flow_11rs3g7">
+        <di:waypoint x="600" y="258" />
+        <di:waypoint x="660" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02j0l2f_di" bpmnElement="Flow_02j0l2f">
+        <di:waypoint x="760" y="258" />
+        <di:waypoint x="820" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0y7deob_di" bpmnElement="Flow_0y7deob">
+        <di:waypoint x="920" y="258" />
+        <di:waypoint x="980" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0442svf_di" bpmnElement="Flow_0442svf">
+        <di:waypoint x="1080" y="258" />
+        <di:waypoint x="1140" y="258" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rhn812_di" bpmnElement="Flow_1rhn812">
+        <di:waypoint x="1240" y="258" />
+        <di:waypoint x="1302" y="258" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
