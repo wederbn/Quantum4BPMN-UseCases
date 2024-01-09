@@ -93,4 +93,21 @@ Dabei wird der folgende Bildschirm angezeigt:
 
 Durch das Klicken auf ``Running Process Instances`` und die Auswahl der erzeugten Instanz, können die aktuelle Position des Tokens sowie die aktuellen Variablenwerte angezeigt werden:
 
-TODO
+![Übersicht über die laufende Workflowinstanz](./docs/instance-overview.jpg)
+
+Der aktuelle Stand kann durch das Neuladen der Seite aktualisiert werden, bis das Token die letzte Aktivität erreicht, die als User Task umgesetzt ist:
+
+![Übersicht über die laufende Workflowinstanz](./docs/final-result.jpg)
+
+Der User Task kann in der Camunda Tasklist bearbeitet werden.
+Dazu wird der entsprechende Auftrag ausgewählt, mittels ``Claim`` aktiviert und über das Öffnen der angegebenen URL das Ergebnis visualisiert:
+
+![Übersicht über den Auftrag des User Tasks](./docs/tasklist-job.jpg)
+
+Dabei wird ein entsprechendes Bild angezeigt, das die Evaluation des trainierten Classifiers darstellt:
+
+![Übersicht über die Evaluation des trainierten Classifiers](./docs/cluster.jpg)
+
+Schließlich kann der User Task durch klicken auf ``Complete`` beendet werden und die Workflowinstanz terminiert.
+
+Die gestarteten Komponenten können durch ausführen des folgenden Befehls im Ordner des Docker-Compose Files heruntergefahren werden: ``docker-compose down -v``
