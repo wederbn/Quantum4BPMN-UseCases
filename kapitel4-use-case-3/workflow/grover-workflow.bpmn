@@ -20,6 +20,7 @@
     <quantme:oracleExpansionTask id="Activity_1thofxb" name="Ersetze&#10;Orakel" oracleId="2,5,8,11" programmingLanguage="openqasm">
       <bpmn2:incoming>Flow_11rs3g7</bpmn2:incoming>
       <bpmn2:outgoing>Flow_02j0l2f</bpmn2:outgoing>
+      <quantme:oracleCircuit>grover</quantme:oracleCircuit>
     </quantme:oracleExpansionTask>
     <quantme:quantumCircuitExecutionTask id="Activity_1d4wxc0" name="Führe Schaltkreis&#10;aus" provider="ibmq" shots="1024" programmingLanguage="openqasm">
       <bpmn2:incoming>Flow_02j0l2f</bpmn2:incoming>
