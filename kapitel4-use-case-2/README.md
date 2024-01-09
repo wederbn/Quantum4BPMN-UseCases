@@ -51,7 +51,14 @@ Der Upload wird über den ``Upload CSARs`` Button gestartet:
 ![Übersicht über die hochzuladenden CSARs](./docs/csar-upload.jpg)
 
 Nach erfolgreichem Upload der CSARs fragt der Dialog die erforderlichen Eingabedaten für die Bereitstellung der Services vom Nutzer ab.
-Dies umfasst beispielsweise das Projekt bzw. die Gruppe der Quantencomputer die bei IBMQ verwendet werden sollen:
+Dies umfasst beispielsweise das Projekt bzw. die Gruppe der Quantencomputer die bei IBMQ verwendet werden sollen.
+
+Im Beispiel werden die folgenden Daten verwendet:
+
+  * ``ibmqGroup``: open
+  * ``ibmqHub``: ibm-q
+  * ``ibmqProject``: main
+  * ``ibmqUrl``: https://auth.quantum-computing.ibm.com/api
 
 ![Übersicht über die Eingabedaten](./docs/input-overview.jpg)
 
