@@ -80,4 +80,17 @@ In der Camunda Tasklist können Workflowinstanzen gestartet werden:
 
 Dazu wird der Button ``Start process`` oben links verwendet, im Popup der Name des Workflows ausgewählt und schließlich die Eingabedaten übergeben:
 
+![Übersicht über die Eingabedaten](./docs/tasklist-input.jpg)
+
+Hierbei muss ein Token für den Zugriff auf IBMQ angegeben und eine zu verwendende QPU ausgewählt werden (im Beispiel der aer_qasm_simulator).
+Zudem wird die URL für den Zugriff auf die erforderlichen Kostümdaten angegeben, wobei [hier](./data) zwei Beispieldatensätze verfügbar sind.
+Anschließend wird die Workflow Instanz durch den ``Start`` Button erzeugt.
+Die laufenden Workfloswinstanzen können im Camunda Cockpit überwacht worden.
+Dieses kann durch klicken auf das Haus-Symbol oben rechts und die Auswahl von ``Cockpit`` geöffnet werden.
+Dabei wird der folgende Bildschirm angezeigt:
+
+![Übersicht über das Camunda Dockpit](./docs/cockpit-overview.jpg)
+
+Durch das Klicken auf ``Running Process Instances`` und die Auswahl der erzeugten Instanz, können die aktuelle Position des Tokens sowie die aktuellen Variablenwerte angezeigt werden:
+
 TODO
