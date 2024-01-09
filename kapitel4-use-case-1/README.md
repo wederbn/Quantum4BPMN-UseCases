@@ -66,7 +66,7 @@ Der aktuelle Stand kann durch das Neuladen der Seite aktualisiert werden, bis da
 ![Übersicht über die laufende Workflowinstanz](./docs/final-activity.jpg)
 
 Der User Task kann in der Camunda Tasklist bearbeitet werden.
-Dazu wird der entsprechende Auftrag ausgewählt, mittels ``Claim`` aktiviert und über das öffnen der angegebenen URL das Ergebnis aktiviert:
+Dazu wird der entsprechende Auftrag ausgewählt, mittels ``Claim`` aktiviert und über das Öffnen der angegebenen URL das Ergebnis visualisiert:
 
 ![Übersicht über den Auftrag des User Tasks](./docs/tasklist-user-task.jpg)
 
