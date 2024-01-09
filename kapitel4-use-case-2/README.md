@@ -45,7 +45,7 @@ Diese Transformation muss für den Anwendungsfall zwei mal durchgeführt werden,
 
 Um den Workflow auszuführen, können die erforderlichen Services mittels der an die Aktivitäten angehängten Deploymentmodelle bereitgestellt werden.
 Der Dialog für die Bereitstellung wird durch klicken auf ``OpenTOSCA`` und anschließend ``Service Deployment`` geöffnet.
-Dieser bietet eine Übersicht über alle CSARs die für die Bereitstellung in den OpenTOSCA geladen werden müssen.
+Dieser bietet eine Übersicht über alle CSARs die für die Bereitstellung in den OpenTOSCA Container geladen werden müssen.
 Der Upload wird über den ``Upload CSARs`` Button gestartet:
 
 ![Übersicht über die hochzuladenden CSARs](./docs/csar-upload.jpg)
