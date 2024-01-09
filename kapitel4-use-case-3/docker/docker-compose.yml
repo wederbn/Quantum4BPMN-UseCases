@@ -26,6 +26,15 @@ services:
     networks:
       - use-case-3
 
+  winery:
+    image: opentosca/winery:v3.0.8-M1
+    logging:
+      driver: none
+    ports:
+      - 8093:8080
+    networks:
+      - use-case-3
+
   oracle-service:
     build: oracle-service/.
     ports:
