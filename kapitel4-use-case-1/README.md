@@ -39,4 +39,17 @@ Durch klicken auf den ``Deploy Workflow`` Button wird der Workflow in die Camund
 Diese kann über [http://localhost:8090](http://localhost:8090) geöffnet werden.
 Nach dem Einloggen (Username: demo, Passwort: demo) wird der folgende Bildschirm angezeigt:
 
+![Übersicht über die Camunda Engine](./docs/camunda-overview.jpg)
+
+In der Camunda Tasklist können Workflowinstanzen gestartet werden:
+
+![Übersicht über die Camunda Tasklist](./docs/camunda-tasklist.jpg)
+
+Dazu wird der Button ``Start process`` oben links verwendet, im Popup der Name des Workflows ausgewählt und schließlich die Eingabedaten übergeben:
+
+![Übersicht über die Eingabedaten](./docs/tasklist-inputs.jpg)
+
+Hierbei können alle vorgegebenen Daten beibehalten werden und es muss lediglich das IBMQ Token und das Noise Model, falls ein Simulator gewählt wird, ergänzt werden.
+Anschließend wird die Workflow Instanz durch den ``Start`` Button erzeugt.
+
 TODO
