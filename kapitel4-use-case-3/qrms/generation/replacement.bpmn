@@ -11,7 +11,7 @@
                 <camunda:entry key="Accept">application/json</camunda:entry>
               </camunda:map>
             </camunda:inputParameter>
-            <camunda:inputParameter name="url">${URL}</camunda:inputParameter>
+            <camunda:inputParameter name="url">${url}</camunda:inputParameter>
             <camunda:outputParameter name="counts">
               <camunda:script scriptFormat="groovy">def resp = connector.getVariable("response");
 resp = new groovy.json.JsonSlurperClassic().parseText(resp);
