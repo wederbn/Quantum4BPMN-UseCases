@@ -25,12 +25,12 @@
       <bpmn2:incoming>Flow_1h08u9o</bpmn2:incoming>
       <bpmn2:outgoing>Flow_11rs3g7</bpmn2:outgoing>
     </quantme:quantumCircuitLoadingTask>
-    <quantme:oracleExpansionTask id="Activity_1thofxb" name="Ersetze&#10;Orakel" oracleId="2,5,8,11" programmingLanguage="openqasm">
+    <quantme:oracleExpansionTask id="Activity_1thofxb" name="Ersetze&#10;Orakel" oracleId="2,5,8,11" programmingLanguage="Qiskit">
       <bpmn2:incoming>Flow_11rs3g7</bpmn2:incoming>
       <bpmn2:outgoing>Flow_02j0l2f</bpmn2:outgoing>
       <quantme:oracleCircuit>grover</quantme:oracleCircuit>
     </quantme:oracleExpansionTask>
-    <quantme:quantumCircuitExecutionTask id="Activity_1d4wxc0" name="Führe Schaltkreis&#10;aus" provider="ibmq" shots="1024" programmingLanguage="openqasm">
+    <quantme:quantumCircuitExecutionTask id="Activity_1d4wxc0" name="Führe Schaltkreis&#10;aus" provider="ibmq" shots="1024" programmingLanguage="Qiskit">
       <bpmn2:incoming>Flow_02j0l2f</bpmn2:incoming>
       <bpmn2:outgoing>Flow_0y7deob</bpmn2:outgoing>
     </quantme:quantumCircuitExecutionTask>
