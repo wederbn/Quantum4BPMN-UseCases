@@ -6,15 +6,9 @@
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:inputParameter name="method">GET</camunda:inputParameter>
-            <camunda:inputParameter name="headers">
-              <camunda:map>
-                <camunda:entry key="Accept">application/json</camunda:entry>
-              </camunda:map>
-            </camunda:inputParameter>
-            <camunda:inputParameter name="url">${url}</camunda:inputParameter>
+            <camunda:inputParameter name="url">${grover_url}</camunda:inputParameter>
             <camunda:outputParameter name="grover_circuit">
               <camunda:script scriptFormat="groovy">def resp = connector.getVariable("response");
-resp = new groovy.json.JsonSlurperClassic().parseText(resp);
 println(resp);
 resp;</camunda:script>
             </camunda:outputParameter>
