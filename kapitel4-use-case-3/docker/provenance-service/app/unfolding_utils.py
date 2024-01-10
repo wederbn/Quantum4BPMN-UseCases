@@ -54,7 +54,7 @@ def get_correction_matrix(qpu, max_age, access_token, used_qubits):
     if existing_matrix is not None:
         age = datetime.now() - existing_matrix['Date']
         app.logger.info('Calibration matrix for this QPU exists with age ' + str(age))
-        if age.total_seconds() < max_age * 60:
+        if age.total_seconds() < float(max_age) * 60:
             app.logger.info('Returning existing calibration matrix!')
             return existing_matrix['Calibration_Matrix']
 
