@@ -31,29 +31,11 @@ def expand_oracle():
         app.logger.error("Service currently only supports JSON")
         abort(400, "Only Json supported")
 
-    if 'CorrelationId' not in request.json:
-        app.logger.error("CorrelationId not defined in request")
-        abort(400, "CorrelationId not defined in request")
-    correlation_Id = request.json['CorrelationId']
-    app.logger.info("CorrelationId: " + correlation_Id)
-
-    if 'ReturnAddress' not in request.json:
-        app.logger.error("ReturnAddress not defined in request")
-        abort(400, "ReturnAddress not defined in request")
-    return_address = request.json['ReturnAddress']
-    app.logger.info("ReturnAddress: " + return_address)
-
-    if 'CircuitId' not in request.json:
-        app.logger.error("CircuitId not defined in request")
-        abort(400, "CircuitId not defined in request")
-
     if 'OracleId' not in request.json:
         app.logger.error("OracleId not defined in request")
         abort(400, "OracleId not defined in request")
-
-    circuit_Id = request.json['CircuitId']
     oracle_Id = request.json['OracleId']
-    app.logger.info("Extending oracles with Ids '" + str(oracle_Id) + "' on circuit with Id " + str(circuit_Id))
+    app.logger.info("Extending oracles with Ids: " + str(oracle_Id))
 
     if 'ProgrammingLanguage' not in request.json:
         app.logger.error("ProgrammingLanguage not defined in request")
@@ -76,8 +58,4 @@ def expand_oracle():
 
     app.logger.info("Passed input is valid")
 
-    t = threading.Thread(target=oracle_replacer.replace_oracles, args=(circuit_Id, oracle_Id, oracle_url, correlation_Id, return_address, request.json['QuantumCircuit'].encode('utf-8')))
-    t.daemon = True
-    t.start()
-
-    return jsonify({'Status': "Oracle expansion process initiated"}), 200
+    return jsonify({'Circuit': oracle_replacer.replace_oracles(oracle_Id, oracle_url, request.json['QuantumCircuit'])}), 200

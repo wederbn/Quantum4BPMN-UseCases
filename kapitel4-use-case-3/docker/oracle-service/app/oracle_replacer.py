@@ -20,11 +20,10 @@ import codecs
 import copy
 import pickle
 
-import requests
-
 from app import app, qiskit_importer
 from qiskit.circuit import Qubit
 from qiskit.converters import circuit_to_dag, dag_to_circuit
+from qiskit.dagcircuit.dagnode import DAGInNode, DAGOpNode
 
 
 def replace_oracle_in_circuit(dag_circuit, dag_oracle, oracle_Id):
@@ -32,7 +31,10 @@ def replace_oracle_in_circuit(dag_circuit, dag_oracle, oracle_Id):
 
     # insert the oracle into the circuit at the specified position
     for node in dag_circuit.topological_nodes():
-        if node.type == 'in' and isinstance(node.wire, Qubit):
+        app.logger.info("Checking node: " + str(node))
+        if isinstance(node, DAGInNode) and isinstance(node.wire, Qubit):
+            app.logger.info("Found DAGInNode...")
+
             # find operation node for depth defined by 'oracle_Id'
             i = 0
             node_to_append_oracle = None
@@ -50,25 +52,34 @@ def replace_oracle_in_circuit(dag_circuit, dag_oracle, oracle_Id):
             app.logger.info("Inserting oracle on wire " + str(node.wire) + " after operation with name "
                             + node_to_append_oracle.name)
             for descendant in dag_circuit.descendants(node_to_append_oracle):
-                if descendant.type == 'op':
+                if isinstance(descendant, DAGOpNode):
                     dag_circuit.remove_op_node(descendant)
+            app.logger.info("Successfully prepared front part of circuit...")
 
             # remove ancestor operations in the backup dag to store the circuit part behind the oracle
+            app.logger.info("Deleting operations from back part...")
+            dag_circuit_back.remove_ancestors_of(node_to_append_oracle)
             for ancestors in dag_circuit_back.ancestors(node_to_append_oracle):
-                if ancestors.type == 'op':
+                if isinstance(ancestors, DAGOpNode):
                     dag_circuit_back.remove_op_node(ancestors)
+            app.logger.info("Deleting node to append from back part...")
             dag_circuit_back.remove_op_node(node_to_append_oracle)
+            app.logger.info("Successfully prepared back part of circuit...")
 
     # compose front part of circuit, oracle, and back part of circuit to overall circuit
+    app.logger.info("Composing circuit...")
     dag_circuit.compose(dag_oracle)
     dag_circuit.compose(dag_circuit_back)
     return dag_circuit
 
 
-def replace_oracles(circuit_Id, oracle_Id_string, oracle_url, correlation_Id, return_address, quantum_circuit):
+def replace_oracles(oracle_Id_string, oracle_url, quantum_circuit):
     """Replace the oracles in the given circuit"""
+
+    app.logger.info("Replacing oracles...")
+
     # get circuit as qiskit object and check for validity
-    circuit_code = qiskit_importer.get_circuit_from_binary(quantum_circuit)
+    circuit_code = qiskit_importer.get_circuit_from_string(quantum_circuit)
     if len(circuit_code.qubits) == 0:
         app.logger.error("QuantumCircuit uses no qubits. Aborting...")
         return
@@ -104,7 +115,5 @@ def replace_oracles(circuit_Id, oracle_Id_string, oracle_url, correlation_Id, re
     final_circuit = dag_to_circuit(dag_circuit)
     final_circuit_base64 = str(codecs.encode(pickle.dumps(final_circuit), "base64").decode())
     final_circuit_base64 = final_circuit_base64.encode('unicode_escape').decode("utf-8")  # double encode line break
-    app.logger.info('Sending callback to ' + str(return_address))
-    camunda_callback = requests.post(return_address, json={"messageName": correlation_Id, "processVariables":
-        {"quantumCircuit": {"value": "{\"circuit\": \"" + final_circuit_base64 + "\"}", "type": "Json"}}})
-    app.logger.info("Callback returned status code: " + str(camunda_callback.status_code))
+    app.logger.info('Returning circuit: ' + final_circuit_base64)
+    return final_circuit_base64

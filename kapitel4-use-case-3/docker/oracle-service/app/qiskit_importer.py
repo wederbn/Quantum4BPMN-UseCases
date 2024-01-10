@@ -16,7 +16,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-import base64
 import importlib
 import os
 import shutil
@@ -33,7 +32,7 @@ def get_oracle_from_url(oracle_url):
     # get oracle circuit from URL
     app.logger.info("Downloading oracle circuit from URL: " + oracle_url)
     temp_dir = tempfile.mkdtemp()
-    oracle_file_name = "oracle_code";
+    oracle_file_name = "oracle_code"
     with open(os.path.join(temp_dir, oracle_file_name + ".py"), "w") as f:
         f.write(urllib_request.urlopen(oracle_url).read().decode("utf-8"))
     sys.path.append(temp_dir)
@@ -54,14 +53,14 @@ def get_oracle_from_url(oracle_url):
         return None
 
 
-def get_circuit_from_binary(circuit_base64):
+def get_circuit_from_string(circuit_string):
     """Convert the given bas64 encoded python file to an qiskit oracle object"""
+    app.logger.info("Writing circuit string to file: " + circuit_string)
 
     # write quantum circuit qiskit file to temp directory
-    quantum_circuit_bytes = base64.decodebytes(circuit_base64)
     temp_dir = tempfile.mkdtemp()
-    with open(os.path.join(temp_dir, "circuit_code_file.py"), "wb") as f:
-        f.write(quantum_circuit_bytes)
+    with open(os.path.join(temp_dir, "circuit_code_file.py"), "w") as f:
+        f.write(circuit_string)
     sys.path.append(temp_dir)
     app.logger.info("Created file at " + os.path.join(temp_dir, "circuit_code_file.py"))
 
@@ -69,6 +68,7 @@ def get_circuit_from_binary(circuit_base64):
     try:
         import circuit_code_file
         importlib.reload(circuit_code_file)
+        app.logger.info("Loaded file to extract circuit...")
         return circuit_code_file.get_circuit()
     finally:
         sys.path.remove(temp_dir)
