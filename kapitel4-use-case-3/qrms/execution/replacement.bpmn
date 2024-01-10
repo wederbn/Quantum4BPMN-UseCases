@@ -34,7 +34,7 @@ import groovy.json.JsonBuilder
   return requeststring;</camunda:script>
             </camunda:inputParameter>
             <camunda:inputParameter name="url">http://execution-service:5000/execution-service</camunda:inputParameter>
-            <camunda:outputParameter name="grover_circuit_replaced">
+            <camunda:outputParameter name="result">
               <camunda:script scriptFormat="groovy">def resp = connector.getVariable("response");
 resp = new groovy.json.JsonSlurperClassic().parseText(resp);
 println(resp);
