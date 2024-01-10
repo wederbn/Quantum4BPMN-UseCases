@@ -7,7 +7,7 @@
           <camunda:formField id="grover_url" label="Grover Circuit URL" type="string" defaultValue="https://raw.githubusercontent.com/wederbn/Quantum4BPMN-UseCases/main/kapitel4-use-case-3/circuits/grover-base.py" />
           <camunda:formField id="token" label="IBM Access Token" type="string" />
           <camunda:formField id="qpu" label="IBM QPU Name" type="string" />
-          <camunda:formField id="oracleCircuitUrl" label="Oracle Circuit URL" type="string" />
+          <camunda:formField id="oracleCircuitUrl" label="Oracle Circuit URL" type="string" defaultValue="https://raw.githubusercontent.com/wederbn/Quantum4BPMN-UseCases/main/kapitel4-use-case-3/circuits/oracle1.py" />
         </camunda:formData>
       </bpmn2:extensionElements>
       <bpmn2:outgoing>Flow_1h08u9o</bpmn2:outgoing>
