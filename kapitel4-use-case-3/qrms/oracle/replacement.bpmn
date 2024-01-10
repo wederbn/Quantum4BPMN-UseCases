@@ -22,7 +22,7 @@ import groovy.json.JsonBuilder
 
   def request = [:];
   request.put("OracleId", oracleId);
-  request.put("ProgrammingLanguage", credentials)
+  request.put("ProgrammingLanguage", programmingLanguage)
   request.put("OracleCircuitUrl", oracleCircuitUrl);
   request.put("QuantumCircuit", circuit);
 
