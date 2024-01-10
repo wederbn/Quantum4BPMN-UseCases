@@ -34,8 +34,9 @@ import groovy.json.JsonBuilder
             <camunda:inputParameter name="url">http://oracle-service:5000/oracle-service</camunda:inputParameter>
             <camunda:outputParameter name="grover_circuit_replaced">
               <camunda:script scriptFormat="groovy">def resp = connector.getVariable("response");
+resp = new groovy.json.JsonSlurperClassic().parseText(resp);
 println(resp);
-resp;</camunda:script>
+resp.get("Circuit");</camunda:script>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
