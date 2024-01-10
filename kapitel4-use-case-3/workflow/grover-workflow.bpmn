@@ -34,7 +34,7 @@
       <bpmn2:incoming>Flow_02j0l2f</bpmn2:incoming>
       <bpmn2:outgoing>Flow_0y7deob</bpmn2:outgoing>
     </quantme:quantumCircuitExecutionTask>
-    <quantme:readoutErrorMitigationTask id="Activity_17xxbpa" name="Schwäche&#10;Fehler ab" provider="ibmq" shots="1024" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion">
+    <quantme:readoutErrorMitigationTask id="Activity_17xxbpa" name="Schwäche&#10;Fehler ab" provider="ibmq" shots="1024" calibrationMethod="fullMatrix" mitigationMethod="matrixInversion" maxAge="100">
       <bpmn2:incoming>Flow_0y7deob</bpmn2:incoming>
       <bpmn2:outgoing>Flow_0442svf</bpmn2:outgoing>
     </quantme:readoutErrorMitigationTask>
