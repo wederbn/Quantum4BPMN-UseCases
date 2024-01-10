@@ -30,8 +30,9 @@ def replace_oracle_in_circuit(dag_circuit, dag_oracle, oracle_Id):
     dag_circuit_back = copy.deepcopy(dag_circuit)
 
     # insert the oracle into the circuit at the specified position
+    first = True
     for node in dag_circuit.topological_nodes():
-        app.logger.info("Checking node: " + str(node))
+        app.logger.info("Checking node with ID " + str(node))
         if isinstance(node, DAGInNode) and isinstance(node.wire, Qubit):
             app.logger.info("Found DAGInNode...")
 
@@ -50,25 +51,31 @@ def replace_oracle_in_circuit(dag_circuit, dag_oracle, oracle_Id):
 
             # remove descendant operations of the node temporarily from the dag
             app.logger.info("Inserting oracle on wire " + str(node.wire) + " after operation with name "
-                            + node_to_append_oracle.name)
+                            + node_to_append_oracle.name + " and Id " + str(node_to_append_oracle))
             for descendant in dag_circuit.descendants(node_to_append_oracle):
                 if isinstance(descendant, DAGOpNode):
                     dag_circuit.remove_op_node(descendant)
-            app.logger.info("Successfully prepared front part of circuit...")
+            app.logger.info("Successfully prepared front part of circuit:")
+            app.logger.info(dag_to_circuit(dag_circuit))
 
             # remove ancestor operations in the backup dag to store the circuit part behind the oracle
             app.logger.info("Deleting operations from back part...")
             for ancestors in dag_circuit_back.ancestors(node_to_append_oracle):
                 if isinstance(ancestors, DAGOpNode):
                     dag_circuit_back.remove_op_node(ancestors)
-            app.logger.info("Deleting node to append from back part...")
-            dag_circuit_back.remove_op_node(node_to_append_oracle)
-            app.logger.info("Successfully prepared back part of circuit...")
+            if first:
+                app.logger.info("Removing node to append")
+                dag_circuit_back.remove_op_node(node_to_append_oracle)
+                first = False
+            app.logger.info("Successfully prepared back part of circuit:")
+            app.logger.info(dag_to_circuit(dag_circuit_back))
 
     # compose front part of circuit, oracle, and back part of circuit to overall circuit
     app.logger.info("Composing circuit...")
     dag_circuit.compose(dag_oracle)
     dag_circuit.compose(dag_circuit_back)
+    app.logger.info("Final circuit:")
+    app.logger.info(dag_to_circuit(dag_circuit))
     return dag_circuit
 
 
@@ -114,5 +121,5 @@ def replace_oracles(oracle_Id_string, oracle_url, quantum_circuit):
     final_circuit = dag_to_circuit(dag_circuit)
     final_circuit_base64 = str(codecs.encode(pickle.dumps(final_circuit), "base64").decode())
     final_circuit_base64 = final_circuit_base64.encode('unicode_escape').decode("utf-8")  # double encode line break
-    app.logger.info('Returning circuit: ' + final_circuit_base64)
-    return final_circuit_base64
+    app.logger.info('Returning circuit: ' + final_circuit.qasm())
+    return final_circuit.qasm()

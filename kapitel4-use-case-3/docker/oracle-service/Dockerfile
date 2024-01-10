@@ -3,7 +3,7 @@ LABEL maintainer = "Benjamin Weder <weder@iaas.uni-stuttgart.de>"
 
 COPY . /
 RUN apt-get update && apt-get install -y gcc python3-dev unzip
-RUN pip install flask requests qiskit==0.37.1
+RUN pip install flask requests qiskit==0.43.0
 
 EXPOSE 5000
 
