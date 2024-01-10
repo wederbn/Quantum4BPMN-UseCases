@@ -16,8 +16,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-import threading
-
 from app import app, unfolding_utils
 from flask import jsonify, abort, request
 
@@ -31,18 +29,6 @@ def mitigate_error():
         app.logger.error("Service currently only supports JSON")
         abort(400, "Only Json supported")
 
-    if 'CorrelationId' not in request.json:
-        app.logger.error("CorrelationId not defined in request")
-        abort(400, "CorrelationId not defined in request")
-    correlation_Id = request.json['CorrelationId']
-    app.logger.info("CorrelationId: " + correlation_Id)
-
-    if 'ReturnAddress' not in request.json:
-        app.logger.error("ReturnAddress not defined in request")
-        abort(400, "ReturnAddress not defined in request")
-    return_address = request.json['ReturnAddress']
-    app.logger.info("ReturnAddress: " + return_address)
-
     if 'QPU' not in request.json:
         app.logger.error("QPU not defined in request")
         abort(400, "QPU not defined in request")
@@ -52,7 +38,7 @@ def mitigate_error():
         app.logger.error("UnfoldingTechnique not defined in request")
         abort(400, "UnfoldingTechnique defined in request")
     unfolding_technique = request.json['UnfoldingTechnique']
-    if not unfolding_technique == 'Correction Matrix':
+    if not unfolding_technique == 'fullMatrix':
         app.logger.error("UnfoldingTechnique is not supported. Currently only Correction Matrix can be used")
         abort(400, "UnfoldingTechnique is not supported. Currently only Correction Matrix can be used")
 
@@ -68,8 +54,4 @@ def mitigate_error():
 
     app.logger.info("Passed input is valid")
 
-    t = threading.Thread(target=unfolding_utils.mitigate_error, args=(correlation_Id, return_address, qpu, max_age, result, access_token))
-    t.daemon = True
-    t.start()
-
-    return jsonify({'Status': "Circuit execution process initiated"}), 200
+    return jsonify({'Result': unfolding_utils.mitigate_error(qpu, max_age, result, access_token)}), 200

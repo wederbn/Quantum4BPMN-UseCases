@@ -19,18 +19,17 @@
 import ast
 import time
 import qiskit
-import requests
 from qiskit import IBMQ
-from qiskit.ignis.mitigation.measurement import (complete_meas_cal, CompleteMeasFitter)
+from qiskit.utils.mitigation import (complete_meas_cal, CompleteMeasFitter)
 from qiskit.providers.jobstatus import JOB_FINAL_STATES
 from datetime import datetime
 
 from app import app
 
-calibration_matrixes = {}
+calibration_matrices = {}
 
 
-def mitigate_error(correlation_Id, return_address, qpu, max_age, result, access_token):
+def mitigate_error(qpu, max_age, result, access_token):
     """Mitigate the readout-error in the given result distribution"""
     app.logger.info('Result before mitigation: ' + result)
     meas_filter = get_correction_matrix(qpu, max_age, access_token, len(next(iter(ast.literal_eval(result)))))
@@ -40,11 +39,10 @@ def mitigate_error(correlation_Id, return_address, qpu, max_age, result, access_
         # Apply mitigation if matrix is successfully retrieved
         mitigated_results = meas_filter.apply(ast.literal_eval(result))
         app.logger.info('Result after mitigation: ' + str(mitigated_results))
+    else:
+        app.logger.warn('Unable to retrieve meas filter. Returning result without mitigation!')
 
-    app.logger.info('Sending callback to ' + str(return_address))
-    camunda_callback = requests.post(return_address, json={"messageName": correlation_Id, "processVariables": {
-        "executionResult": {"value": str(mitigated_results), "type": "String"}}})
-    app.logger.info("Callback returned status code: " + str(camunda_callback.status_code))
+    return str(mitigated_results)
 
 
 def get_correction_matrix(qpu, max_age, access_token, used_qubits):
@@ -52,7 +50,7 @@ def get_correction_matrix(qpu, max_age, access_token, used_qubits):
     app.logger.info('Getting calibration matrix for QPU ' + qpu + ' with max age of ' + str(max_age) + ' minutes')
 
     # Check for existing calibration matrix
-    existing_matrix = calibration_matrixes.get(qpu)
+    existing_matrix = calibration_matrices.get(qpu)
     if existing_matrix is not None:
         age = datetime.now() - existing_matrix['Date']
         app.logger.info('Calibration matrix for this QPU exists with age ' + str(age))
@@ -88,7 +86,7 @@ def get_correction_matrix(qpu, max_age, access_token, used_qubits):
     app.logger.info(meas_fitter.cal_matrix)
 
     # Store calibration matrix for later reuse
-    calibration_matrixes[qpu] = {"Date": datetime.now(), "Calibration_Matrix": meas_fitter.filter}
+    calibration_matrices[qpu] = {"Date": datetime.now(), "Calibration_Matrix": meas_fitter.filter}
     return meas_fitter.filter
 
 
