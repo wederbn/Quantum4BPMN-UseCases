@@ -4,7 +4,7 @@
     <bpmn2:startEvent id="StartEvent_1">
       <bpmn2:extensionElements>
         <camunda:formData>
-          <camunda:formField id="url" label="Grover Circuit URL" type="string" defaultValue="https://raw.githubusercontent.com/wederbn/Quantum4BPMN-UseCases/main/kapitel4-use-case-3/circuits/grover-base.py" />
+          <camunda:formField id="grover_url" label="Grover Circuit URL" type="string" defaultValue="https://raw.githubusercontent.com/wederbn/Quantum4BPMN-UseCases/main/kapitel4-use-case-3/circuits/grover-base.py" />
           <camunda:formField id="token" label="IBM Access Token" type="string" />
           <camunda:formField id="qpu" label="IBM QPU Name" type="string" />
         </camunda:formData>
