@@ -58,7 +58,6 @@ def replace_oracle_in_circuit(dag_circuit, dag_oracle, oracle_Id):
 
             # remove ancestor operations in the backup dag to store the circuit part behind the oracle
             app.logger.info("Deleting operations from back part...")
-            dag_circuit_back.remove_ancestors_of(node_to_append_oracle)
             for ancestors in dag_circuit_back.ancestors(node_to_append_oracle):
                 if isinstance(ancestors, DAGOpNode):
                     dag_circuit_back.remove_op_node(ancestors)
