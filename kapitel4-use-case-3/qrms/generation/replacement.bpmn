@@ -12,12 +12,11 @@
               </camunda:map>
             </camunda:inputParameter>
             <camunda:inputParameter name="url">${url}</camunda:inputParameter>
-            <camunda:outputParameter name="counts">
+            <camunda:outputParameter name="grover_circuit">
               <camunda:script scriptFormat="groovy">def resp = connector.getVariable("response");
 resp = new groovy.json.JsonSlurperClassic().parseText(resp);
 println(resp);
 resp;</camunda:script>
-            </camunda:outputParameter>
             </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
