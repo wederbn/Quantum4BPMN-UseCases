@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
   <bpmn2:process id="Process_1" isExecutable="true">
-    <bpmn2:serviceTask id="Activity_09rniok" />
+    <bpmn2:serviceTask id="Activity_09rniok" camunda:asyncAfter="true" opentosca:deploymentModelUrl="">
+      <bpmn2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Accept">application/json</camunda:entry>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="groovy">
+import groovy.json.JsonBuilder
+  def circuit = execution.getVariable("grover_circuit");
+  def oracleId = execution.getVariable("oracleId");
+  def oracleCircuitUrl = execution.getVariable("oracleCircuitUrl");
+  def programmingLanguage = execution.getVariable("programmingLanguage");
+
+  def request = [:];
+  request.put("OracleId", oracleId);
+  request.put("ProgrammingLanguage", credentials)
+  request.put("OracleCircuitUrl", oracleCircuitUrl);
+  request.put("QuantumCircuit", circuit);
+
+  requeststring = new JsonBuilder(request).toPrettyString()
+  println("Sending request:");
+  println(requeststring);
+  return requeststring;</camunda:script>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="url">http://oracle-service:8081/oracle-service</camunda:inputParameter>
+            <camunda:outputParameter name="grover_circuit_replaced">
+              <camunda:script scriptFormat="groovy">def resp = connector.getVariable("response");
+println(resp);
+resp;</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn2:extensionElements>
+    </bpmn2:serviceTask>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
