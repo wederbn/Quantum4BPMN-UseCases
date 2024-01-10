@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
-  <bpmn2:process id="Process_1" isExecutable="true">
-    <bpmn2:serviceTask id="Activity_14054jw" />
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Process_1" isExecutable="true" camunda:asyncAfter="true" opentosca:deploymentModelUrl="">
+    <bpmn2:serviceTask id="Activity_14054jw">
+      <bpmn2:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="headers">
+              <camunda:map>
+                <camunda:entry key="Accept">application/json</camunda:entry>
+                <camunda:entry key="Content-Type">application/json</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:script scriptFormat="groovy">
+import groovy.json.JsonBuilder
+  def unfoldingTechnique = execution.getVariable("calibrationMethod");
+  def maxAge = execution.getVariable("maxAge");
+  def qpu = execution.getVariable("qpu");
+  def token = execution.getVariable("token");
+  def result = execution.getVariable("result");
+
+  def request = [:];
+  request.put("UnfoldingTechnique", unfoldingTechnique);
+  request.put("MaxAge", maxAge)
+  request.put("QPU", qpu);
+  request.put("AccessToken", token);
+  request.put("Result", result);
+
+  requeststring = new JsonBuilder(request).toPrettyString()
+  println("Sending request:");
+  println(requeststring);
+  return requeststring;</camunda:script>
+            </camunda:inputParameter>
+            <camunda:inputParameter name="url">http://provenance-service:5000/provenance-service</camunda:inputParameter>
+            <camunda:outputParameter name="result_mitigated">
+              <camunda:script scriptFormat="groovy">def resp = connector.getVariable("response");
+resp = new groovy.json.JsonSlurperClassic().parseText(resp);
+println(resp);
+return resp.get("Result");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn2:extensionElements>
+    </bpmn2:serviceTask>
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
