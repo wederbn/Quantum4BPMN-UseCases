@@ -16,13 +16,9 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-import codecs
-import json
-import pickle
 import time
 
-import requests
-from qiskit import IBMQ, transpile, assemble
+from qiskit import QuantumCircuit, IBMQ, transpile, assemble
 from qiskit.providers import QiskitBackendNotFoundError, JobError, JobTimeoutError
 from qiskit.providers.ibmq.api.exceptions import RequestsApiError
 from qiskit.providers.jobstatus import JOB_FINAL_STATES
@@ -30,21 +26,19 @@ from qiskit.providers.jobstatus import JOB_FINAL_STATES
 from app import app
 
 
-def execute_circuit(correlation_Id, return_address, quantum_circuit_encoded, qpu, access_token, shots):
+def execute_circuit(quantum_circuit, qpu, access_token, shots):
     """Execute the given circuit on the given quantum computer"""
 
-    # get qiskit circuit object from Json object containing the base64 encoded circuit
-    circuit = json.loads(quantum_circuit_encoded)['circuit']
-    quantum_circuit = pickle.loads(codecs.decode(circuit.encode(), "base64"))
+    # get qiskit circuit object from OpenQASM string
+    circuit = QuantumCircuit.from_qasm_str(quantum_circuit)
+    app.logger.info("Loaded circuit for execution:")
+    app.logger.info(circuit)
 
     ibm_qpu = get_qpu(access_token, qpu)
     if ibm_qpu is None:
         app.logger.error("Unable to retrieve qpu object with given name and given access token")
-        camunda_callback = requests.post(return_address, json={"messageName": "error_" + correlation_Id, "processVariables": {
-            "executionResult": {"value": "Unable to load account with given access token.", "type": "String"}}})
-        app.logger.info("Callback returned status code: " + str(camunda_callback.status_code))
-        return
-    transpiled_circuit = transpile(quantum_circuit, backend=ibm_qpu)
+        return "Unable to load account with given access token."
+    transpiled_circuit = transpile(circuit, backend=ibm_qpu)
 
     app.logger.info(
         "Start executing transpiled circuit with width " + str(transpiled_circuit.num_qubits) + " and depth " + str(
@@ -52,15 +46,10 @@ def execute_circuit(correlation_Id, return_address, quantum_circuit_encoded, qpu
     result_counts = execute(transpiled_circuit, shots, ibm_qpu)
     if result_counts is None:
         app.logger.error("Execution failed!")
-        camunda_callback = requests.post(return_address, json={"messageName": "error_" + correlation_Id, "processVariables": {
-            "executionResult": {"value": "Unable to retrieve results from execution.", "type": "String"}}})
-        app.logger.info("Callback returned status code: " + str(camunda_callback.status_code))
-        return
+        return "Execution failed!"
     app.logger.info("Execution returned the following result counts: " + str(result_counts))
 
-    camunda_callback = requests.post(return_address, json={"messageName": correlation_Id, "processVariables": {
-        "executionResult": {"value": str(result_counts), "type": "String"}}})
-    app.logger.info("Callback returned status code: " + str(camunda_callback.status_code))
+    return str(result_counts)
 
 
 def get_qpu(access_token, qpu):

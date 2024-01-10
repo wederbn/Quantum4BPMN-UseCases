@@ -16,8 +16,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ******************************************************************************
-import threading
-
 from app import app, circuit_executor
 from flask import jsonify, abort, request
 
@@ -30,18 +28,6 @@ def expand_oracle():
     if not request.json:
         app.logger.error("Service currently only supports JSON")
         abort(400, "Only Json supported")
-
-    if 'CorrelationId' not in request.json:
-        app.logger.error("CorrelationId not defined in request")
-        abort(400, "CorrelationId not defined in request")
-    correlation_Id = request.json['CorrelationId']
-    app.logger.info("CorrelationId: " + correlation_Id)
-
-    if 'ReturnAddress' not in request.json:
-        app.logger.error("ReturnAddress not defined in request")
-        abort(400, "ReturnAddress not defined in request")
-    return_address = request.json['ReturnAddress']
-    app.logger.info("ReturnAddress: " + return_address)
 
     if 'ProgrammingLanguage' not in request.json:
         app.logger.error("ProgrammingLanguage not defined in request")
@@ -57,7 +43,7 @@ def expand_oracle():
         abort(400, "Provider not defined in request")
     provider = request.json['Provider']
     app.logger.info('Provider: ' + provider)
-    if not provider == 'IBM':
+    if not provider == 'ibmq':
         app.logger.error("Provider is not supported. Currently only IBM can be used")
         abort(400, "Provider is not supported. Currently only IBM can be used")
 
@@ -77,15 +63,12 @@ def expand_oracle():
         abort(400, "QuantumCircuit not defined in request")
     quantum_circuit_encoded = request.json['QuantumCircuit']
 
-    shots = request.json['Shots']
     if 'Shots' not in request.json:
         app.logger.info("Using default number of shots (1024)")
         shots = 1024
+    else:
+        shots = request.json['Shots']
 
     app.logger.info("Passed input is valid")
 
-    t = threading.Thread(target=circuit_executor.execute_circuit, args=(correlation_Id, return_address, quantum_circuit_encoded, qpu, access_token, shots))
-    t.daemon = True
-    t.start()
-
-    return jsonify({'Status': "Circuit execution process initiated"}), 200
+    return jsonify({'Result': circuit_executor.execute_circuit(quantum_circuit_encoded, qpu, access_token, shots)}), 200
