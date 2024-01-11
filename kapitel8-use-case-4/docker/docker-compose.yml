@@ -59,7 +59,7 @@ services:
       - use-case-4
       
   circuit-generation-service:
-    image: planqk/quantum-circuit-generator:v0.2.0
+    image: planqk/quantum-circuit-generator:v1.0.0
     ports:
       - '5073:5073'
     networks:
