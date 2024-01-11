@@ -19,7 +19,6 @@
       <bpmn2:outgoing>Flow_0k45o2v</bpmn2:outgoing>
       <bpmn2:script>def packagesUrl = execution.getVariable("packagesUrl");
   def packageString = new URL (packagesUrl).getText();
-  //def packageString = new URL ("https://raw.githubusercontent.com/UST-QuAntiL/QuantME-UseCases/icwe/2023-icwe/data/packages.txt").getText();
   def packages = []
   def destinations = []
 
@@ -27,12 +26,25 @@
     def packageValues = [:]
     def values = p.split(",")
     packageValues.put("destination", values[0])
-    packageValues.put("size", values[1].toInteger())
-    packageValues.put("deliveryDate", values[2])
+    packageValues.put("id", values[1])
+    packageValues.put("size", values[2].toInteger())
+    packageValues.put("deliveryDate", values[3])
     packages.add(packageValues)
 
-    if (!destinations.contains(values[0])){
-      destinations.add(values[0])
+    println("Searching for destination: " + values[0]);
+    def destination = destinations.stream().find{ it.name == values[0] }
+    println(destination);
+    if (!destination){
+      println("Destination not found, adding new destination...");
+      destination= [:]
+      destination.put("name", values[0])
+      def packagesForDestination = []
+      packagesForDestination.add(packageValues)
+      destination.put("packages", packagesForDestination)
+      destinations.add(destination)
+    } else {
+      println("Adding package to existing destination...");
+      destination.packages.add(packageValues)
     }
   }
   println(packages);
