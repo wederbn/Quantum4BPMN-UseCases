@@ -164,10 +164,11 @@ return durationMatrix;</camunda:script>
 
   def totalSize = 0;
   packages.each { p -&gt;
-    if( currentDestinations.contains(p.get('destination'))) {
+    if(currentDestinations.stream().find{ it.name == p.get('destination') }) {
       totalSize += p.get('size');
     }
   }
+print("Total size: " + totalSize)
 
   execution.setVariable("allFitsInTruck", totalSize &lt; maxCapacity);</bpmn2:script>
     </bpmn2:scriptTask>
