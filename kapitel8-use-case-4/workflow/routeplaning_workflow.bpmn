@@ -320,7 +320,7 @@ println(nextDestinations);
 
   def requiredIndizes = []
   for (def i in 0..allCities.size()-1) {
-    if (currentDestinations.contains(allCities[i])){
+    if (currentDestinations.stream().find{ it.name == allCities[i].name }){
       requiredIndizes.push(i)
     }
   }
