@@ -59,7 +59,7 @@ services:
       - use-case-4
       
   circuit-generation-service:
-    image: planqk/quantum-circuit-generator:v1.0.0
+    image: planqk/quantum-circuit-generator:v1.0.1
     ports:
       - '5073:5073'
     networks:
@@ -76,6 +76,13 @@ services:
     image: planqk/map-generation-app:v1.0.0
     ports:
       - '5079:8102'
+    networks:
+      - use-case-4
+
+  quokka-gateway:
+    image: planqk/quokka-gateway:0.2.0
+    ports:
+      - '6474:6474'
     networks:
       - use-case-4
 
