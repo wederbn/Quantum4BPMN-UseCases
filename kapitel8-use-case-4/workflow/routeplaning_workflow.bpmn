@@ -4,8 +4,8 @@
     <bpmn2:startEvent id="Event_0a9vpcu" camunda:asyncAfter="true" camunda:exclusive="false">
       <bpmn2:extensionElements>
         <camunda:formData>
-          <camunda:formField id="trucksUrl" label="Url to file containing trucks" type="string" defaultValue="https://raw.githubusercontent.com/UST-QuAntiL/QuantME-UseCases/master/2023-icwe/data/trucks.txt" />
-          <camunda:formField id="packagesUrl" label="Url to file containing packages" type="string" defaultValue="https://raw.githubusercontent.com/UST-QuAntiL/QuantME-UseCases/master/2023-icwe/data/packages.txt" />
+          <camunda:formField id="trucksUrl" label="Url to file containing trucks" type="string" defaultValue="https://raw.githubusercontent.com/wederbn/Quantum4BPMN-UseCases/main/kapitel8-use-case-4/data/trucks.txt" />
+          <camunda:formField id="packagesUrl" label="Url to file containing packages" type="string" defaultValue="https://raw.githubusercontent.com/wederbn/Quantum4BPMN-UseCases/main/kapitel8-use-case-4/data/packages_small.txt" />
           <camunda:formField id="awsToken" label="AWS Token for Maps API" type="string" defaultValue="YOUR_TOKEN" />
         </camunda:formData>
       </bpmn2:extensionElements>
