@@ -57,7 +57,7 @@
     <bpmn2:scriptTask id="Activity_0ym5a6k" name="Überprüfe&#10;Fahrer/LKWs" scriptFormat="groovy">
       <bpmn2:incoming>Flow_0k45o2v</bpmn2:incoming>
       <bpmn2:outgoing>Flow_1o0job9</bpmn2:outgoing>
-      <bpmn2:script>  def trucksUrl = execution.getVariable("trucksUrl");
+      <bpmn2:script>def trucksUrl = execution.getVariable("trucksUrl");
   def destinations = execution.getVariable("destinations");
   def trucksString = new URL (trucksUrl).getText();
 
@@ -71,8 +71,11 @@
     truckValues.put("email", values[3])
     trucks.add(truckValues)
 
-    if (!destinations.contains(values[2])){
-      destinations.add(values[2])
+    if (!destinations.stream().find{ it.name == values[2] }){      
+      def destination= [:]
+      destination.put("name", values[2])
+      destination.put("packages", [])
+      destinations.add(destination)
     }
   }
 
@@ -94,15 +97,15 @@
             </camunda:inputParameter>
             <camunda:inputParameter name="url">http://distance-matrix:8101/useCaseDistanceMatrix</camunda:inputParameter>
             <camunda:inputParameter name="payload">
-              <camunda:script scriptFormat="groovy">  
-			  import groovy.json.JsonBuilder
+              <camunda:script scriptFormat="groovy">import groovy.json.JsonBuilder
 def allCities = execution.getVariable("allCities");
   def aws_token = execution.getVariable("awsToken");
 
   def request = [:];
-  request.put("towns", allCities);
+  request.put("towns", allCities.collect{ it.name });
   request.put("token", aws_token);
   requeststring = new JsonBuilder(request).toPrettyString()
+print(requeststring)
   return requeststring;</camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="distanceMatrix">
