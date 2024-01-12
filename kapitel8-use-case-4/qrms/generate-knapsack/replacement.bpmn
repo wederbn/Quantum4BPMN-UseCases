@@ -24,7 +24,7 @@
   request.put("max_weights", currentCapacity);
   request.put("p", 1);
   requeststring = new JsonBuilder(request).toPrettyString()
-print(requeststring);
+println(requeststring);
 return requeststring;
 </camunda:script>
             </camunda:inputParameter>

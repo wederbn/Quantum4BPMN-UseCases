@@ -50,23 +50,37 @@ execution.setVariable("currentRoute", route_array);
       <bpmn2:scriptTask id="Activity_10wvapd" name="Daten vorverarbeiten" camunda:asyncBefore="true" camunda:asyncAfter="true" scriptFormat="groovy">
         <bpmn2:incoming>Flow_0ptfzy6</bpmn2:incoming>
         <bpmn2:outgoing>Flow_13tmg40</bpmn2:outgoing>
-        <bpmn2:script>  def currentTruck = execution.getVariable("currentTruck");
-print("Current truck: " + currentTruck);
-  execution.setVariable("currentCapacity", currentTruck.capacity);
+        <bpmn2:script>import java.text.*;
+import java.time.LocalDate;
+
+def currentTruck = execution.getVariable("currentTruck");
+println("Current truck: " + currentTruck);
+execution.setVariable("currentCapacity", currentTruck.capacity);
 
 def currentDestinations = execution.getVariable("currentDestinations");
 def currentItems = [];
-currentDestinations.each { destination -&gt;
-    print ("Processing destination for knapsack: " + destination)
-    destination.packages.each { package -&gt;
-        print ("Processing package: " + package);
+
+for(destination in currentDestinations){
+    println("Processing destination for knapsack: " + destination.name);
+    def packagesForDestination = destination.packages;
+    println("Packages for destination: " + packagesForDestination);
+    for(p in packagesForDestination){
+        println("Processing package: " + p.id);
         def packageForKnapsack = [:];
-        packageForKnapsack.put("id", package.id);
-        packageForKnapsack.put("value", package.size);
-        packageForKnapsack.put("weight", package.weight);
+        packageForKnapsack.put("id", p.id);
+        println("Size: " + p.size);
+        packageForKnapsack.put("value", p.size);
+
+        def priority = groovy.time.TimeCategory.minus(
+            new Date(),
+            new SimpleDateFormat("dd.MM.yyyy").parse(p.deliveryDate)
+        );
+        println("Priority: " + priority.days);
+        packageForKnapsack.put("weight", priority.days);
         currentItems.add(packageForKnapsack);
     }
 }
+
 execution.setVariable("currentItems", currentItems);
 </bpmn2:script>
       </bpmn2:scriptTask>
