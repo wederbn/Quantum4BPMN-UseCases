@@ -156,9 +156,11 @@ return durationMatrix;</camunda:script>
   def currentDestinations = execution.getVariable("currentDestinations");
 
   def maxCapacity = 0;
+  def currentTruck = [:];
   unassignedTrucks.each { truck -&gt;
     if (truck.get('capacity') &gt; maxCapacity) {
       maxCapacity = truck.get('capacity');
+      currentTruck = truck;
     }
   }
 
@@ -170,7 +172,8 @@ return durationMatrix;</camunda:script>
   }
 print("Total size: " + totalSize)
 
-  execution.setVariable("allFitsInTruck", totalSize &lt; maxCapacity);</bpmn2:script>
+  execution.setVariable("allFitsInTruck", totalSize &lt; maxCapacity);
+  execution.setVariable("currentTruck", currentTruck);</bpmn2:script>
     </bpmn2:scriptTask>
     <bpmn2:sequenceFlow id="Flow_0ey4t8g" sourceRef="Activity_0yyvfyd" targetRef="Gateway_1thnudz" />
     <bpmn2:sequenceFlow id="Flow_1uk996u" sourceRef="Activity_1almfwy" targetRef="Activity_0yyvfyd" />
@@ -237,12 +240,12 @@ print("Total size: " + totalSize)
     <bpmn2:scriptTask id="Activity_0vk7g32" name="Informiere Fahrer" scriptFormat="groovy">
       <bpmn2:incoming>Flow_0t1933o</bpmn2:incoming>
       <bpmn2:outgoing>Flow_08svt2n</bpmn2:outgoing>
-      <bpmn2:script>def unassignedTrucks = execution.getVariable("unassignedTrucks");
+      <bpmn2:script>def currentTruck = execution.getVariable("currentTruck");
 def nextDestinations = execution.getVariable("nextDestinations");
 def currentRoute= execution.getVariable("currentRoute");
 def allRoutes= execution.getVariable("allRoutes");
 
-println(unassignedTrucks[0].get('driver')+' on route' + currentRoute.inspect());
+println(currentTruck.get('driver')+' on route' + currentRoute.inspect());
 
 if(allRoutes == null){
   allRoutes = [];
@@ -250,11 +253,11 @@ if(allRoutes == null){
 
 this_route =[:]
 this_route.put("route", currentRoute.getClass().newInstance(currentRoute));
-this_route.put("driver", unassignedTrucks[0].getClass().newInstance(unassignedTrucks[0]));
+this_route.put("driver", currentTruck.getClass().newInstance(currentTruck));
 allRoutes.push(this_route);
 
 nextDestinations.removeAt(0);
-unassignedTrucks.removeAt(0);
+unassignedTrucks.remove(myList.indexOf(currentTruck))
 
 execution.setVariable("allRoutes", allRoutes);
 execution.setVariable("nextDestinations", nextDestinations);
