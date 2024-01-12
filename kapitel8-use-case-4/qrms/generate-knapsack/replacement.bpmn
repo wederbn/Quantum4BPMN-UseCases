@@ -16,17 +16,16 @@
             <camunda:inputParameter name="payload">
               <camunda:script scriptFormat="groovy">
 			    import groovy.json.JsonBuilder
-  def adjMatrix = execution.getVariable("adjMatrix");
+  def currentItems = execution.getVariable("currentItems");
+  def currentCapacity = execution.getVariable("currentCapacity");
 
   def request = [:];
-  request.put("adj_matrix", adjMatrix);
-  request.put("parameterized", "true");
+  request.put("items", currentItems);
+  request.put("max_weights", currentCapacity);
   request.put("p", 1);
-  if (execution.getVariable("wsBitstring") != null) {
-    request.put("initial_state", execution.getVariable("wsBitstring"));
-  }
   requeststring = new JsonBuilder(request).toPrettyString()
-  return requeststring;
+print(requeststring);
+return requeststring;
 </camunda:script>
             </camunda:inputParameter>
             <camunda:outputParameter name="circuit">
