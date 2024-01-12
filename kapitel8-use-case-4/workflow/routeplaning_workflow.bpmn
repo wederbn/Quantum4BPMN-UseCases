@@ -170,7 +170,7 @@ return durationMatrix;</camunda:script>
       totalSize += p.get('size');
     }
   }
-print("Total size: " + totalSize)
+println("Total size: " + totalSize)
 
   execution.setVariable("allFitsInTruck", totalSize &lt; maxCapacity);
   execution.setVariable("currentTruck", currentTruck);</bpmn2:script>
@@ -348,6 +348,13 @@ println(submatrixOfDistanceMatrix);
     </bpmn2:scriptTask>
     <bpmn2:sequenceFlow id="Flow_12pjp7k" sourceRef="Activity_1eml1us" targetRef="Activity_0wsvbf1" />
     <quantme:quantumComputationTask id="QuantumComputationTask_1ye1vc6" name="Berechne Ladeliste (Knapsack)" algorithm="Knapsack" provider="ibm">
+      <bpmn2:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="betas">[1]</camunda:inputParameter>
+          <camunda:inputParameter name="gammas">[1]</camunda:inputParameter>
+          <camunda:inputParameter name="token">YOUR_TOKEN</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn2:extensionElements>
       <bpmn2:incoming>Flow_1k013oe</bpmn2:incoming>
       <bpmn2:outgoing>Flow_10t3293</bpmn2:outgoing>
     </quantme:quantumComputationTask>
