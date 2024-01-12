@@ -257,7 +257,7 @@ this_route.put("driver", currentTruck.getClass().newInstance(currentTruck));
 allRoutes.push(this_route);
 
 nextDestinations.removeAt(0);
-unassignedTrucks.remove(myList.indexOf(currentTruck))
+unassignedTrucks.remove(unassignedTrucks.indexOf(currentTruck))
 
 execution.setVariable("allRoutes", allRoutes);
 execution.setVariable("nextDestinations", nextDestinations);
