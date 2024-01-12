@@ -50,39 +50,25 @@ execution.setVariable("currentRoute", route_array);
       <bpmn2:scriptTask id="Activity_10wvapd" name="Daten vorverarbeiten" camunda:asyncBefore="true" camunda:asyncAfter="true" scriptFormat="groovy">
         <bpmn2:incoming>Flow_0ptfzy6</bpmn2:incoming>
         <bpmn2:outgoing>Flow_13tmg40</bpmn2:outgoing>
-        <bpmn2:script>  def allCities = execution.getVariable("allCities");
-  def currentDestinations = execution.getVariable("currentDestinations");
-  def distanceMatrix = execution.getVariable("distanceMatrix");
-  def durationMatrix = execution.getVariable("durationMatrix");
+        <bpmn2:script>  def currentTruck = execution.getVariable("currentTruck");
+print("Current truck: " + currentTruck);
+  execution.setVariable("currentCapacity", currentTruck.capacity);
 
-if (currentDestinations.size() ==2 ){
-currentDestinations.push("Hannover");
+def currentDestinations = execution.getVariable("currentDestinations");
+def currentItems = [];
+currentDestinations.each { destination -&gt;
+    print ("Processing destination for knapsack: " + destination)
+    destination.packages.each { package -&gt;
+        print ("Processing package: " + package);
+        def packageForKnapsack = [:];
+        packageForKnapsack.put("id", package.id);
+        packageForKnapsack.put("value", package.size);
+        packageForKnapsack.put("weight", package.weight);
+        currentItems.add(packageForKnapsack);
+    }
 }
-
-  def requiredIndizes = []
-  for (def i in 0..allCities.size()-1) {
-    if (currentDestinations.contains(allCities[i])){
-      requiredIndizes.push(i)
-    }
-  }
-
-  def submatrixOfDistanceMatrix = new Integer [requiredIndizes.size()] [requiredIndizes.size()];
-  def submatrixOfDurationMatrix = new Float [requiredIndizes.size()] [requiredIndizes.size()];
-  for (def i in 0..requiredIndizes.size()-1) {
-    submatrixOfDistanceMatrix [i][i] = 0;
-    submatrixOfDurationMatrix [i][i] = 0.0;
-    for (def j in i+1..requiredIndizes.size()-1) {
-      if (j &lt; requiredIndizes.size()){
-        submatrixOfDistanceMatrix [i][j] = distanceMatrix[requiredIndizes[i]][requiredIndizes[j]];
-        submatrixOfDistanceMatrix [j][i] = distanceMatrix[requiredIndizes[j]][requiredIndizes[i]];
-        submatrixOfDurationMatrix [j][i] = durationMatrix[requiredIndizes[j]][requiredIndizes[i]];
-        submatrixOfDurationMatrix [j][i] = durationMatrix[requiredIndizes[j]][requiredIndizes[i]];
-      }
-    }
-  }
-println(submatrixOfDistanceMatrix);
-  // switch between distance and duration depending on reqs
-  execution.setVariable("adjMatrix", submatrixOfDistanceMatrix);</bpmn2:script>
+execution.setVariable("currentItems", currentItems);
+</bpmn2:script>
       </bpmn2:scriptTask>
       <bpmn2:startEvent id="Event_0jhz4b4">
         <bpmn2:outgoing>Flow_0ptfzy6</bpmn2:outgoing>
