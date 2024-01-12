@@ -69,14 +69,14 @@ for(destination in currentDestinations){
         def packageForKnapsack = [:];
         packageForKnapsack.put("id", p.id);
         println("Size: " + p.size);
-        packageForKnapsack.put("value", p.size);
+        packageForKnapsack.put("weight", p.size);
 
         def priority = groovy.time.TimeCategory.minus(
             new Date(),
             new SimpleDateFormat("dd.MM.yyyy").parse(p.deliveryDate)
         );
         println("Priority: " + priority.days);
-        packageForKnapsack.put("weight", priority.days);
+        packageForKnapsack.put("value", priority.days);
         currentItems.add(packageForKnapsack);
     }
 }
