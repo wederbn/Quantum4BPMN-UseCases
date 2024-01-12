@@ -21,9 +21,9 @@
   def objFun = execution.getVariable("objectiveFunction");
 
   def request = [:];
-  request.put("visualization", "True"  )
-  request.put("currentItems", currentItems);
-  request.put("maxWeights", maxWeights);
+  request.put("visualization", "True")
+  request.put("items", currentItems);
+  request.put("max_weights", maxWeights);
   request.put("counts", counts);
   request.put("objFun", objFun);
 
