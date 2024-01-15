@@ -69,6 +69,9 @@ for (i in 0..currentDestinations.size()-1){
       it.id.equals(itemsToRemove[j].id)  
     }
   }
+  if (packages.size() = 0) {
+    packages.push(itemsToRemove[0]);
+  }
   println("Packages after update:" + packages);
   currentDestination.packages = packages;
   currentDestinationsCopy.push(currentDestination);
