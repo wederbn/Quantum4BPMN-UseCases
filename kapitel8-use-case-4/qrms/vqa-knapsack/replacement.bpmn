@@ -22,24 +22,59 @@
       <bpmn2:scriptTask id="Activity_1a8ruk9" name="Speichere Ladeliste" scriptFormat="groovy">
         <bpmn2:incoming>Flow_0z90hsf</bpmn2:incoming>
         <bpmn2:outgoing>Flow_0j9m0xt</bpmn2:outgoing>
-        <bpmn2:script>def currentDestinations = execution.getVariable("currentDestinations");
+        <bpmn2:script>
 def evaluatedCosts = execution.getVariable("evaluatedCosts");
+def currentItems= execution.getVariable("currentItems");
+println("Current items:");
+println(currentItems);
 
-
-evaluatedCosts = evaluatedCosts[0].get("bitstring");
-println(evaluatedCosts);
-
-// route_array = new String [currentDestinations.size()];
-route_array = [];
-char_array = evaluatedCosts.toCharArray()
-
-for (i in 0..currentDestinations.size()-1){
-  route_array.push(currentDestinations[char_array[(i * currentDestinations.size())..(i * currentDestinations.size()+ currentDestinations.size())-1].findIndexOf {it == '1'}]);
+def resultBitString;
+evaluatedCosts = evaluatedCosts[0];
+evaluatedCosts.each{
+    key, value -&gt; resultBitString = key;
 }
-println(route_array);
+println("Result bitstring:");
+println(resultBitString);
+char_array = resultBitString.toCharArray();
 
+def itemsToDeliver = [];
+def itemsToRemove = [];
+for (i in 0..currentItems.size()-1){
+  println("Checking item with ID: " + currentItems[i].id);
+  if (char_array[i] == "1") {
+    println("Adding item with ID:" + currentItems[i].id);
+    itemsToDeliver.push(currentItems[i]);
+  } else{
+    itemsToRemove.push(currentItems[i]);
+  }
+}
+println("Items to deliver:");
+println(itemsToDeliver);
 
-execution.setVariable("currentRoute", route_array);
+execution.setVariable("currentItems", itemsToDeliver);
+
+def currentDestinationsCopy = [];
+def currentDestinations = execution.getVariable("currentDestinations");
+println("Updating current destinations with selected packages:");
+println(currentDestinations);
+for (i in 0..currentDestinations.size()-1){
+  def currentDestination = currentDestinations[i];
+  println("Updating location with name: " + currentDestination.name);
+  def packages = currentDestination.packages;
+  println("Packages before update: " + packages);
+
+  for (j in 0..itemsToRemove.size()-1){
+    println("Removing package with ID: " + itemsToRemove[j].id);
+    packages.removeAll {
+      it.id.equals(itemsToRemove[j].id)  
+    }
+  }
+  println("Packages after update:" + packages);
+  currentDestination.packages = packages;
+  currentDestinationsCopy.push(currentDestination);
+}
+
+execution.setVariable("currentDestinations", currentDestinationsCopy);
 </bpmn2:script>
       </bpmn2:scriptTask>
       <quantme:quantumCircuitLoadingTask id="QuantumCircuitLoadingTask_1kp6udy" name="Generier QAOA Schaltkreis" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false" url="quokka/knapsack">
