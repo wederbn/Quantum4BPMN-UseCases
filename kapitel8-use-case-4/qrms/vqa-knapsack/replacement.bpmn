@@ -120,6 +120,7 @@ for(destination in currentDestinations){
 }
 
 execution.setVariable("currentItems", currentItems);
+execution.setVariable("converged", "false");
 </bpmn2:script>
       </bpmn2:scriptTask>
       <bpmn2:startEvent id="Event_0jhz4b4">

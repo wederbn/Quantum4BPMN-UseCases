@@ -53,6 +53,9 @@ n_qubits= resp.get('n_qubits')
 println(n_qubits);
 return n_qubits;</camunda:script>
             </camunda:outputParameter>
+            <camunda:outputParameter name="converged">
+                <camunda:script scriptFormat="groovy">return "false";</camunda:script>
+            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
