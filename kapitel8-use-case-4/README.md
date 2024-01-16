@@ -27,4 +27,19 @@ Anschließend wird der folgende Bildschirm angezeigt:
 
 ![Übersicht über den Modeler](./docs/modeler-overview.jpg)
 
+Der Workflow für diesen Anwendungsfall ist [hier](./workflow/grover-workflow.bpmn) verfügbar und kann mittels ``Open`` oben links im Modeler geöffnet werden:
+
+![Übersicht über den Workflow](./docs/workflow-overview.jpg)
+
+Vor der Ausführung muss der Workflow in einen nativen Workflow überführt werden, was durch klicken auf den ``Transform Workflow`` erreicht werden kann.
+Bei dieser Transformation werden die QuantMe Modellierungskonstrukte durch native Modellierungskonstrukte ersetzt:
+
+![Übersicht über den transformierten Workflow](./docs/workflow-transformed.jpg)
+
+Durch das Klicken auf den ``Deploy Workflow`` Button wird der Workflow in die Camunda BPMN Engine geladen.
+Diese kann über [http://localhost:8090](http://localhost:8090) geöffnet werden.
+Nach dem Einloggen (Username: demo, Passwort: demo) wird der folgende Bildschirm angezeigt:
+
+![Übersicht über die Camunda Engine](./docs/camunda-overview.jpg)
+
 TODO
