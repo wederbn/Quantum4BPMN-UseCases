@@ -27,7 +27,7 @@ Anschließend wird der folgende Bildschirm angezeigt:
 
 ![Übersicht über den Modeler](./docs/modeler-overview.jpg)
 
-Der Workflow für diesen Anwendungsfall ist [hier](./workflow/grover-workflow.bpmn) verfügbar und kann mittels ``Open`` oben links im Modeler geöffnet werden:
+Der Workflow für diesen Anwendungsfall ist [hier](./workflow/routeplaning_workflow.bpmn) verfügbar und kann mittels ``Open`` oben links im Modeler geöffnet werden:
 
 ![Übersicht über den Workflow](./docs/workflow-overview.jpg)
 
