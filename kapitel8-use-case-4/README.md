@@ -42,4 +42,12 @@ Nach dem Einloggen (Username: demo, Passwort: demo) wird der folgende Bildschirm
 
 ![Übersicht über die Camunda Engine](./docs/camunda-overview.jpg)
 
+In der Camunda Tasklist können Workflowinstanzen gestartet werden:
+
+![Übersicht über die Camunda Tasklist](./docs/camunda-tasklist.jpg)
+
+Dazu wird der Button ``Start process`` oben links verwendet, im Popup der Name des Workflows ausgewählt und schließlich die Eingabedaten übergeben:
+
+![Übersicht über die Eingabedaten](./docs/tasklist-input.jpg)
+
 TODO
