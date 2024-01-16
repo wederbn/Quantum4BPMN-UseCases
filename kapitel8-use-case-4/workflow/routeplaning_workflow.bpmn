@@ -305,8 +305,16 @@ println(nextDestinations);
     <quantme:quantumComputationTask id="Activity_0wsvbf1" name="Teile Graph (MaxCut)" algorithm="MaxCut" provider="ibm">
       <bpmn2:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="betas">[1]</camunda:inputParameter>
-          <camunda:inputParameter name="gammas">[1]</camunda:inputParameter>
+          <camunda:inputParameter name="gammas">
+              <camunda:list>
+                <camunda:value>1</camunda:value>
+              </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="betas">
+              <camunda:list>
+                <camunda:value>1</camunda:value>
+              </camunda:list>
+          </camunda:inputParameter>
           <camunda:inputParameter name="token">YOUR_TOKEN</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn2:extensionElements>
@@ -350,8 +358,16 @@ println(submatrixOfDistanceMatrix);
     <quantme:quantumComputationTask id="QuantumComputationTask_1ye1vc6" name="Berechne Ladeliste (Knapsack)" algorithm="Knapsack" provider="ibm">
       <bpmn2:extensionElements>
         <camunda:inputOutput>
-          <camunda:inputParameter name="betas">[1]</camunda:inputParameter>
-          <camunda:inputParameter name="gammas">[1]</camunda:inputParameter>
+          <camunda:inputParameter name="gammas">
+              <camunda:list>
+                <camunda:value>1</camunda:value>
+              </camunda:list>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="betas">
+              <camunda:list>
+                <camunda:value>1</camunda:value>
+              </camunda:list>
+          </camunda:inputParameter>
           <camunda:inputParameter name="token">YOUR_TOKEN</camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn2:extensionElements>
