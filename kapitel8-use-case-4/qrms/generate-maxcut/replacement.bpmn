@@ -56,6 +56,9 @@ return n_qubits;</camunda:script>
             <camunda:outputParameter name="converged">
                 <camunda:script scriptFormat="groovy">return "false";</camunda:script>
             </camunda:outputParameter>
+            <camunda:outputParameter name="iterations">
+                <camunda:script scriptFormat="groovy">return 0;</camunda:script>
+            </camunda:outputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>http-connector</camunda:connectorId>
         </camunda:connector>
