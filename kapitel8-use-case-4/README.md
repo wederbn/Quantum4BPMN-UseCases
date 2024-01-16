@@ -31,8 +31,9 @@ Der Workflow für diesen Anwendungsfall ist [hier](./workflow/grover-workflow.bp
 
 ![Übersicht über den Workflow](./docs/workflow-overview.jpg)
 
-Vor der Ausführung muss der Workflow in einen nativen Workflow überführt werden, was durch klicken auf den ``Transform Workflow`` erreicht werden kann.
-Bei dieser Transformation werden die QuantMe Modellierungskonstrukte durch native Modellierungskonstrukte ersetzt:
+Vor der Ausführung muss der Workflow in einen nativen Workflow überführt werden, was durch klicken auf ``Transform Workflow`` erreicht werden kann.
+Bei dieser Transformation werden die QuantMe Modellierungskonstrukte durch native Modellierungskonstrukte ersetzt.
+Diese Transformation muss für den Anwendungsfall zwei mal durchgeführt werden, da zunächst bei der Ersetzung der Quantum Computation Tasks neue Quantum Circuit Execution Tasks eingefügt werden, die dann in der zweiten Transformation durch native Modellierungskonstrukte ersetzt werden:
 
 ![Übersicht über den transformierten Workflow](./docs/workflow-transformed.jpg)
 
@@ -50,4 +51,27 @@ Dazu wird der Button ``Start process`` oben links verwendet, im Popup der Name d
 
 ![Übersicht über die Eingabedaten](./docs/tasklist-input.jpg)
 
-TODO
+Hierbei können alle vorgegebenen Daten beibehalten werden.
+Anschließend wird die Workflow Instanz durch den ``Start`` Button erzeugt.
+Die laufenden Workfloswinstanzen können im Camunda Cockpit überwacht worden.
+Dieses kann durch klicken auf das Haus-Symbol oben rechts und die Auswahl von ``Cockpit`` geöffnet werden.
+Anschließend wird der folgende Bildschirm angezeigt:
+
+![Übersicht über das Camunda Cockpit](./docs/cockpit-overview.jpg)
+
+Durch das Klicken auf ``Running Process Instances`` und die Auswahl der erzeugten Instanz, können die aktuelle Position des Tokens sowie die aktuellen Variablenwerte angezeigt werden:
+
+![Übersicht über die laufende Workflowinstanz](./docs/cockpit-instance.jpg)
+
+Der aktuelle Stand kann durch das Neuladen der Seite aktualisiert werden, bis das Token die letzte Aktivität erreicht, die als User Task umgesetzt ist:
+
+![Übersicht über die laufende Workflowinstanz](./docs/final-task.jpg)
+
+Der User Task kann in der Camunda Tasklist bearbeitet werden.
+Dazu wird der entsprechende Auftrag ausgewählt, mittels ``Claim`` aktiviert und das Ergebnis mit den Fahrern und den zugehörigen Routen und Paketen zur Auslieferung extrahiert:
+
+![Übersicht über das Ergebnis von Grovers Algorithmus](./docs/tasklist-result.jpg)
+
+Schließlich kann der User Task durch klicken auf ``Complete`` beendet werden und die Workflowinstanz terminiert.
+
+Die gestarteten Komponenten können durch ausführen des folgenden Befehls im Ordner des Docker-Compose Files heruntergefahren werden: ``docker-compose down -v``
