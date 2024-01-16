@@ -88,7 +88,8 @@ currentDestinations.push("Hannover");
   }
 println(submatrixOfDistanceMatrix);
   // switch between distance and duration depending on reqs
-  execution.setVariable("adjMatrix", submatrixOfDistanceMatrix);</bpmn2:script>
+  execution.setVariable("adjMatrix", submatrixOfDistanceMatrix);
+  execution.setVariable("converged", "false");</bpmn2:script>
         </bpmn2:scriptTask>
         <bpmn2:exclusiveGateway id="Gateway_1h9ovip" name="Breite &#62; 20 &#38; Simulator?">
           <bpmn2:incoming>Flow_1hcw6br</bpmn2:incoming>
